@@ -2,6 +2,25 @@
 
 <!-- ## [I'm an inline-style link with title](https://www.google.com "Google's Homepage") -->
 
+## [Bash](https://www.google.com 'Docker Captain & David Herron')
+
+1. ~~previous bash script~~
+1. ~~[Getting started with OpenSSH](https://subscription.packtpub.com/book/networking-and-servers/9781788997560/4/ch04lvl1sec47/getting-started-with-openssh "OpenSSH is quite possibly the most useful tool in existence for managing Linux servers. Of all the countless utilities available, this is the one I recommend that everyone starts practicing as soon as they can. Technically, I could probably better fit a section for setting up OpenSSH in Chapter 7, Setting Up Network Services, but this utility is very handy, and we should start using it as soon as possible. In this section, I'll give you some information on OpenSSH and how to install it, and then I'll finish up the section with a few examples of actually using it.")~~
+1. ~~Fail2Ban~~
+1. ~~Uncomplicated FireWall~~
+1. escape `SED`
+1. jail.local.conf
+1. add Docker to previous Bash Script
+1. git clone repo
+
+## [Docker](https://www.google.com 'Docker Captain & David Herron')
+
+1. NGINX
+1. FrontEnd React TypeScript
+1. BackEnd express, Next, Nuxt or Nest TypeScript Backend
+1. git clone repo
+1. docker-compose UP
+
 ## [Cloud](https://www.google.com 'I')
 
 1. [Digital Ocean](https://www.google.com '40 day demo left')  
@@ -12,17 +31,6 @@
    Node lighter weight on Server than PHP
 1. [Amazon Web Service](https://www.google.com 'lease $5 monthly')  
    lease $5 monthly
-
-### [Docker; Bash](https://www.google.com 'Docker Captain & David Herron')
-
-1. SSH keys
-1. Fail2Ban
-1. Uncomplicated FireWall
-1. escape `SED`
-1. previous bash script
-1. add Docker to previous Bash Script
-1. git clone repo
-1. docker-compose UP
 
 ## [Social Network API](https://www.google.com 'II')
 
