@@ -191,5 +191,53 @@ sed -i "s/logpath = %(sshd_log)s/logpath = %(sshd_log)s\nenabled = true/" /etc/f
 
 # apt autoremove -y
 # apt autoclean -y
+# reboot
 
-reboot
+# Install Docker on Ubuntu 18.04
+# Install Docker on Ubuntu 20.04
+# update apt-get libraries
+apt-get update
+
+# install required packages
+apt-get install \
+   apt-transport-https \
+   ca-certificates \
+   curl \
+   software-properties-common
+
+# get the GPG key for docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+   apt-key add -
+
+# validating the docker GPG key is installed
+apt-key fingerprint 0EBFCD88
+
+# adding the docker repository
+add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+# update apt-get libraries again
+apt-get update
+
+# install docker
+apt-get install docker-ce
+
+# validate install with version command
+# docker --version
+
+# validating functionality by running a container
+# docker run hello-world
+
+# add the current user to the docker group
+usermod -aG docker "${USERNAME}"
+
+# validate that sudo is no longer needed
+# docker run hello-world
+
+# install docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+# reboot
