@@ -20,7 +20,7 @@ IP_ADDRESS=0.0.000.000
 aws_VPC=10.0.0.0/24
 
 # Port for accessing SSH
-SSH_PORT=2244
+SSH_PORT=22
 
 # Port for DEVelopment; ReAct :3000
 # DEV_PORT=3000
@@ -100,14 +100,18 @@ done
 # chmod 0750 "${home_directory}"
 chmod 0700 "${home_directory}/.ssh"
 chmod 0600 "${home_directory}/.ssh/authorized_keys"
+
 # Adjust SSH configuration ownership and permissions
 chown --recursive "${USERNAME}":"${USERNAME}" "${home_directory}/.ssh"
+
 # Chapter 2, Users
 # install PAM (Pluggable Authentication Modules)
-# apt-get install -y libpam-cracklib
+
+apt-get install -y libpam-cracklib
 # apt-get install -y libpam-pwquality
 # apt-get -y install libpam-cracklib
 # module-type	control		module-path	arguments
+
 echo 'password required pam_pwhistory.so remember=99 use_authok' >> /etc/pam.d/common-password
 # difference ( at least three characters have to be different )
 # difok=3
@@ -196,33 +200,50 @@ sed -i "s/logpath = %(sshd_log)s/logpath = %(sshd_log)s\nenabled = true/" /etc/f
 # Install Docker on Ubuntu 18.04
 # Install Docker on Ubuntu 20.04
 # update apt-get libraries
-apt-get update
+# apt update
+
+# sudo apt upgrade -y
+apt upgrade -y
 
 # install required packages
-apt-get install \
-   apt-transport-https \
-   ca-certificates \
-   curl \
-   software-properties-common
+# sudo apt install apt-transport-https ca-certificates curl software-properties-common
+# apt install apt-transport-https ca-certificates curl software-properties-common
+# apt install \
+#    apt-transport-https \
+#    ca-certificates \
+#    curl \
+#    software-properties-common
+
 
 # get the GPG key for docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-   apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+#    apt-key add -
 
 # validating the docker GPG key is installed
+# sudo apt-key fingerprint 0EBFCD88
 apt-key fingerprint 0EBFCD88
 
 # adding the docker repository
-add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+# sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+# add-apt-repository \
+#    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+#    $(lsb_release -cs) \
+#    stable"
+
 
 # update apt-get libraries again
-apt-get update
+# sudo apt update
+apt update
+
+# sudo apt-cache policy docker-ce
+# apt-cache policy docker-ce
 
 # install docker
-apt-get install docker-ce
+# sudo apt install docker-ce
+apt install docker-ce
+# 406 MB
 
 # validate install with version command
 # docker --version
@@ -230,14 +251,23 @@ apt-get install docker-ce
 # validating functionality by running a container
 # docker run hello-world
 
+# apt-key fingerprint 0EBFCD88
+
 # add the current user to the docker group
+# sudo usermod -aG docker "${USERNAME}"
 usermod -aG docker "${USERNAME}"
+#    17  exit
+#    16  id -nG
 
 # validate that sudo is no longer needed
 # docker run hello-world
 
 # install docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
+#    21  sudo chmod +x /usr/local/bin/docker-compose
+#    22  docker-compose --version
 
 # reboot
