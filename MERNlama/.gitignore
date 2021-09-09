@@ -140,10 +140,6 @@ dist
 
 .dynamodb/
 
-# MongoDB
-
-data/
-
 # TernJS port file
 
 .tern-port

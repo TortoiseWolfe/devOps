@@ -1,0 +1,35 @@
+version: '2.4'
+
+services:
+  mernlama:
+    image: mernlama
+    build:
+      context: MERNlama
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8800:8800
+    depends_on:
+      - mongo
+    restart: always
+    volumes:
+      - ./MERNlama:/app
+    # healthcheck:
+    #   test: ['CMD', 'npm run test']
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3
+    #   start_period: 5s
+    # logging:
+    #   driver: "json-file"
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data/db:/data/db'
