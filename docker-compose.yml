@@ -9,13 +9,19 @@ services:
     volumes:
       - './data/db:/data/db'
     restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     environment:
       MONGO_INITDB_ROOT_USERNAME: janeDoe
       MONGO_INITDB_ROOT_PASSWORD: butterCUPz
 
   # Express
   mernlama:
-    image: mernlama
+    # image: mernlama
     build:
       context: MERNlama
       dockerfile: ./Dockerfile
@@ -28,7 +34,8 @@ services:
     ports:
       - 8800:8800
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     volumes:
       - ./MERNlama:/app
     # healthcheck:
@@ -44,27 +51,27 @@ services:
     #     max-file: "3"
     restart: always
 
-  # # React-Redux
-  # react:
-  #   image: react
-  #   build:
-  #     context: React
-  #     dockerfile: ./Dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #     # MONGO_ADMINUSERNAME: janeDoe
-  #     # MONGO_ADMINPASSWORD: butterCUPz
-  #     # MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
-  #     # MONGO_DBNAME: mernlama
-  #   ports:
-  #     - 3000:3000
-  #   # depends_on:
-  #   #   - mongo
-  #   restart: always
-  #   volumes:
-  #     - ./React:/app
-  #   # healthcheck:
-  #   #   test: ['CMD', 'npm run test']
+  # React-Redux
+  react:
+    # image: react
+    build:
+      context: r-frnt
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      # MONGO_ADMINUSERNAME: janeDoe
+      # MONGO_ADMINPASSWORD: butterCUPz
+      # MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
+      # MONGO_DBNAME: mernlama
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   - mongo
+    restart: always
+    volumes:
+      - ./r-frnt:/usr/src/app
+    # healthcheck:
+    #   test: ['CMD', 'npm run test']
 
   # # NGINX
   # nginx:
