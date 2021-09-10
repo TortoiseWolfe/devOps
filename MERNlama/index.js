@@ -12,8 +12,7 @@ const port = process.env.PORT || 8800;
 dotenv.config();
 
 // Connect to MongoDB
-// mongoose.connect(process.env.MONGO_URL, {
-mongoose.connect('mongodb://mongo:27017/', {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 },

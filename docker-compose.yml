@@ -1,6 +1,19 @@
 version: '2.4'
 
 services:
+  # MongoDB
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data/db:/data/db'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: janeDoe
+      MONGO_INITDB_ROOT_PASSWORD: butterCUPz
+
+  # Express
   mernlama:
     image: mernlama
     build:
@@ -8,11 +21,14 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
+      # MONGO_ADMINUSERNAME: janeDoe
+      # MONGO_ADMINPASSWORD: butterCUPz
+      MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
+      MONGO_DBNAME: mernlama
     ports:
       - 8800:8800
     depends_on:
       - mongo
-    restart: always
     volumes:
       - ./MERNlama:/app
     # healthcheck:
@@ -26,10 +42,39 @@ services:
     #   options:
     #     max-size: "10m"
     #     max-file: "3"
+    restart: always
 
-  mongo:
-    image: mongo
-    ports:
-      - '27017:27017'
-    volumes:
-      - './data/db:/data/db'
+  # # React-Redux
+  # react:
+  #   image: react
+  #   build:
+  #     context: React
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production
+  #     # MONGO_ADMINUSERNAME: janeDoe
+  #     # MONGO_ADMINPASSWORD: butterCUPz
+  #     # MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
+  #     # MONGO_DBNAME: mernlama
+  #   ports:
+  #     - 3000:3000
+  #   # depends_on:
+  #   #   - mongo
+  #   restart: always
+  #   volumes:
+  #     - ./React:/app
+  #   # healthcheck:
+  #   #   test: ['CMD', 'npm run test']
+
+  # # NGINX
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #     - '80:80'
+  #   volumes:
+  #     - './data/nginx:/etc/nginx/conf.d'
+  #   restart: always
+  #   depends_on:
+  #     - mernlama
+  #   # healthcheck:
+  #   #   test: ['CMD', 'npm run test']
