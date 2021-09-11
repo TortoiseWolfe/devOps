@@ -78,9 +78,9 @@ By the end of this Node.js book, you’ll have gained practical Node.js web deve
 
 ### [https://github.com/TurtleWolfe/Docker-on-Ubuntu](https://github.com/TurtleWolfe/Docker-on-Ubuntu 'https://github.com/TurtleWolfe/Docker-on-Ubuntu')
 
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04
+#### [digitalocean/how-to-install-and-use-docker-on-ubuntu-20-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04 'https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04')
 
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04
+## [Dockerizing a React App](https://mherman.org/blog/dockerizing-a-react-app/ 'This tutorial demonstrates how to Dockerize a React app using the Create React App generator')
 
 ## [ChatSocketIO Draggable Dice DockerFile React AWS](http://ec2-52-87-220-90.compute-1.amazonaws.com/ 'NGINX Docker AWS')
 
@@ -971,9 +971,10 @@ DockerCompose-Production.yml
 
 ### [# 16? When To Use Alpine, Debian, or CentOS Images](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content 'Build, test, deploy Node for Docker, Kubernetes, Swarm, and ARM with the latest DevOps practices from a container expert')
 
-1. [`Alpine`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26')
+1. [try `Slim` first](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26')
+1. [then `Alpine` if needed](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26')
 1. [not `slim` or `latest`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26')
-1. [`Stretch` more current than `Jessie`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26')
+1. [`Stretch` more current than `Jessie`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545430#content '14 2:26 and Stretch uses security scanning')
 
 ### [# 18. Assignment Answers: Making a CentOS Node Image](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13545438#content 'Build, test, deploy Node for Docker, Kubernetes, Swarm, and ARM with the latest DevOps practices from a container expert')
 
@@ -1039,6 +1040,7 @@ DockerCompose-Production.yml
 
 1. [`FROM node as prod`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '3:30')
 1. [`FROM prod as dev`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '3:30')
+1. [docker build -t myapp:prod `--target prod` .](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '6:0')
 
 ### [# 34](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content 'Build, test, deploy Node for Docker, Kubernetes, Swarm, and ARM with the latest DevOps practices from a container expert')
 

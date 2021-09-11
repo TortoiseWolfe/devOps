@@ -25,6 +25,7 @@ services:
     build:
       context: MERNlama
       dockerfile: ./Dockerfile
+      target: prod
     environment:
       NODE_ENV: production
       # MONGO_ADMINUSERNAME: janeDoe
@@ -37,13 +38,14 @@ services:
       mongo:
         condition: service_healthy
     volumes:
-      - ./MERNlama:/app
-    # healthcheck:
-    #   test: ['CMD', 'npm run test']
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 3
-    #   start_period: 5s
+      - ./MERNlama:/usr/src/app
+      # - /usr/src/app/node_modules
+    healthcheck:
+      test: ['CMD', 'npm run test']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     # logging:
     #   driver: "json-file"
     #   options:
@@ -57,8 +59,10 @@ services:
     build:
       context: r-frnt
       dockerfile: ./Dockerfile
+      target: prod
     environment:
       NODE_ENV: production
+      # CHOKIDAR_USEPOLLING: true
       # MONGO_ADMINUSERNAME: janeDoe
       # MONGO_ADMINPASSWORD: butterCUPz
       # MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
@@ -70,8 +74,12 @@ services:
     restart: always
     volumes:
       - ./r-frnt:/usr/src/app
-    # healthcheck:
-    #   test: ['CMD', 'npm run test']
+      # - /usr/src/app/node_modules
+    healthcheck:
+      test: ['CMD', 'npm run test']
+    # depends_on:
+    #   mernlama:
+    #     condition: service_healthy
 
   # # NGINX
   # nginx:
