@@ -23,10 +23,10 @@ services:
 
   # Express
   mernlama:
-    # image: mernlama:prod
-    image: mernlama:dev
+    image: mernlama:prod
+    # image: mernlama:dev
     build:
-      # target: prod
+      target: prod
       context: MERNlama
       dockerfile: ./Dockerfile
     environment:
@@ -57,17 +57,17 @@ services:
 
   # React-Redux
   react:
-    # image: react:prod
-    image: react:dev
+    image: react:prod
+    # image: react:dev
     build:
-      # target: prod
+      target: prod
       context: r-frnt
       dockerfile: ./Dockerfile
     # environment:
     #   CI: 'true'
     ports:
       - 3000:3000
-      # - 80:80
+      - 80:80
     depends_on:
       mongo:
         condition: service_healthy
