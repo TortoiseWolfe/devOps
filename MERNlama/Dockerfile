@@ -1,47 +1,57 @@
-# express api
+# express BackEnd
 # server
 # DevLama Social Network
-# MERNlama
-
-# PRODUCTION
-# pull official base image
-FROM node:14.17.6-stretch-slim as prod
-# FROM node:14.17.6-alpine
-ENV NODE_ENV=production
+# mernlama:8800
+#
+# BASE
+FROM node:14.17.6-stretch-slim as base
 # EXPOSE 8800
-
+ENV NODE_ENV=production
+# ENV PORT=8800
+# set $PATH to include node_modules/.bin
+# ENV PATH /usr/src/node_modules/.bin:$PATH
+#                                             #
 # set working directory
 WORKDIR /usr/src/app
-
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
+#                                             #
 # install app dependencies
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production \
-  && mv node_modules ../ \ 
+# RUN npm install --only=production \
+RUN npm ci --production \
+  # && mv node_modules ../ \
+  # I hope you know what you're doing?
+  # yes, this should minimize the size of the image
   && npm cache clean --force
-
-# add app
+#                                             #
+# add custom code per app
 COPY . .
-RUN chown -R node /usr/src/app
+# change permissions to node user             # 
+RUN chown -R node /usr/src
 USER node
-# production
-CMD ["node", "index.js"]
+# end of base
+
+# PRODUCTION
+FROM base as prod
+ENV NODE_ENV=production
+# ENV PORT=8800
+CMD ["node",  "index.js"]
 # end of prod
 
 # DEVELOPMENT
-FROM prod as dev
+FROM base as dev
 ENV NODE_ENV=development
+ENV PATH /usr/src/node_modules/.bin:$PATH
 # RUN npm install --only=development \
-RUN npm install \
+RUN npm ci --development \
   && mv node_modules ../ \
   && npm cache clean --force
-# CMD ["npm", "start"]
-# FIXED this should not have a ../ in it. The app and node_modules are in the same dir
 CMD ["nodemon",  "index.js"]
+# end of dev
 
 # # TEST
 # FROM dev as test
 # ENV NODE_ENV=development
 # CMD ["npm", "test"]
+# # end of test
+
+# CMD ["nodemon",  "index.js"]

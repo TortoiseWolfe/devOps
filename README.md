@@ -3,8 +3,7 @@
 <!-- ## [I'm an inline-style link with title](https://www.google.com "Google's Homepage") -->
 
 ```bash
-docker-compose build
-docker-compose up -d
+docker-compose up -d --build
 docker-compose down
 ```
 
@@ -21,7 +20,7 @@ docker-compose down
 
 ## [Docker](https://www.google.com 'Docker Captain & David Herron')
 
-1. `Dockerfile` multi stage build, dev prod, test
+1. `Dockerfile` multi stage ~~dev~~, ~~prod~~, test, build
 1. ~~FrontEnd React~~ TypeScript
 1. NGINX
 1. ~~BackEnd express, Next, Nuxt or Nest TypeScript Backend~~
@@ -1038,13 +1037,16 @@ DockerCompose-Production.yml
 
 ### [# 31. Multi-stage Docker Builds](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content 'Build, test, deploy Node for Docker, Kubernetes, Swarm, and ARM with the latest DevOps practices from a container expert')
 
-1. [`FROM node as prod`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '3:30')
-1. [`FROM prod as dev`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '3:30')
-1. [docker build -t myapp:prod `--target prod` .](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '6:0')
+1. [docker build -t myapp:prod `--target prod` .](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236624#content '3:30 6:00')
 
 ### [# 34](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content 'Build, test, deploy Node for Docker, Kubernetes, Swarm, and ARM with the latest DevOps practices from a container expert')
 
-1. [`FROM node as prod`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [FROM `node` as `prod`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [ENV `NODE_ENV`=`production`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [FROM `prod` as `dev`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [ENV `NODE_ENV`=`development`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [FROM `dev` as `test`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
+1. [ENV `NODE_ENV`=`development`](https://www.udemy.com/course/docker-mastery-for-nodejs/learn/lecture/13236854#content '3:30')
 
 ## Section 6: Node Apps in Cloud Native Docker
 

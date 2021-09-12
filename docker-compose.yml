@@ -18,16 +18,18 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: janeDoe
       MONGO_INITDB_ROOT_PASSWORD: butterCUPz
+  # local MongoDB for development
+  # move to Atlas for Cloud Distribution in production
 
   # Express
   mernlama:
-    # image: mernlama
+    # image: mernlama:prod
+    image: mernlama:dev
     build:
+      # target: prod
       context: MERNlama
       dockerfile: ./Dockerfile
-      target: prod
     environment:
-      NODE_ENV: production
       # MONGO_ADMINUSERNAME: janeDoe
       # MONGO_ADMINPASSWORD: butterCUPz
       MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
@@ -55,41 +57,30 @@ services:
 
   # React-Redux
   react:
-    # image: react
+    # image: react:prod
+    image: react:dev
     build:
+      # target: prod
       context: r-frnt
       dockerfile: ./Dockerfile
-      target: prod
-    environment:
-      NODE_ENV: production
-      # CHOKIDAR_USEPOLLING: true
-      # MONGO_ADMINUSERNAME: janeDoe
-      # MONGO_ADMINPASSWORD: butterCUPz
-      # MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
-      # MONGO_DBNAME: mernlama
+    # environment:
+    #   CI: 'true'
     ports:
       - 3000:3000
-    # depends_on:
-    #   - mongo
+      # - 80:80
+    depends_on:
+      mongo:
+        condition: service_healthy
     restart: always
     volumes:
-      - ./r-frnt:/usr/src/app
       # - /usr/src/app/node_modules
+      - ./r-frnt:/usr/src/app
+      - ./r-frnt/nginx:/etc/nginx/conf.d
+      # - ./nginx:/etc/nginx/conf.d
     healthcheck:
-      test: ['CMD', 'npm run test']
+      test: ['CMD', 'CI=true npm run test']
     # depends_on:
     #   mernlama:
     #     condition: service_healthy
 
-  # # NGINX
-  # nginx:
-  #   image: nginx
-  #   ports:
-  #     - '80:80'
-  #   volumes:
-  #     - './data/nginx:/etc/nginx/conf.d'
-  #   restart: always
-  #   depends_on:
-  #     - mernlama
-  #   # healthcheck:
-  #   #   test: ['CMD', 'npm run test']
+  # NODE

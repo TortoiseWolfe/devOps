@@ -152,6 +152,14 @@ ufw allow 443/tcp
 ufw --force enable
 
 apt update
+
+# get the GPG key for docker
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+#    && apt-key add -
+
+# usermod -aG docker "${USERNAME}"
+
+# apt upgrade
 # Chapter 15, Fail2Ban
 apt-get -y install fail2ban
 cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
@@ -159,6 +167,10 @@ sed -i 's/bantime  = 10m/bantime  = 120m/' /etc/fail2ban/jail.local
 sed -i 's/maxretry = 5/maxretry = 3/' /etc/fail2ban/jail.local
 sed -i "s/logpath = %(sshd_log)s/logpath = %(sshd_log)s\nenabled = true/" /etc/fail2ban/jail.local
 # sed -i "s/#ignoreip = 127.0.0.1\/8 ::1/ignoreip = 127.0.0.1\/8 ::1 ${aws_VPC} ${IP_ADDRESS}/" /etc/fail2ban/jail.local
+
+# apt install python3-pip -y
+# pip install docker
+# pip install docker-compose
 
 # Apache
 # sudo apt-get install apache2 -y
@@ -216,9 +228,8 @@ apt upgrade -y
 
 
 # get the GPG key for docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-#    apt-key add -
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \ && sudo apt-key add -
 
 # validating the docker GPG key is installed
 # sudo apt-key fingerprint 0EBFCD88
