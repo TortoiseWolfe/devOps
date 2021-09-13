@@ -6,11 +6,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>This is a Docker Compose Demo Page.</h1>
-        <p>This content is being served by an <code>Nginx</code> container.</p>
+        <h1><code>React</code> <code>Nginx</code> <code>Docker</code></h1>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://github.com/TurtleWolfe/devOps"
           target="_blank"
           rel="noopener noreferrer"
         >
