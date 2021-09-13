@@ -30,6 +30,8 @@ services:
       context: MERNlama
       dockerfile: ./Dockerfile
     environment:
+      NODE_ENV: production
+      # NODE_ENV: development
       # MONGO_ADMINUSERNAME: janeDoe
       # MONGO_ADMINPASSWORD: butterCUPz
       MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/

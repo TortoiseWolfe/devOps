@@ -6,23 +6,19 @@
 # BASE
 FROM node:14.17.6-stretch-slim as base
 # EXPOSE 8800
-ENV NODE_ENV=production
 # ENV PORT=8800
 # set $PATH to include node_modules/.bin
 # ENV PATH /usr/src/node_modules/.bin:$PATH
-#                                             #
 # set working directory
 WORKDIR /usr/src/app
-#                                             #
 # install app dependencies
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 # RUN npm install --only=production \
 RUN npm ci --production \
-  # && mv node_modules ../ \
+  && mv node_modules ../ \
   # I hope you know what you're doing?
   # yes, this should minimize the size of the image
   && npm cache clean --force
-#                                             #
 # add custom code per app
 COPY . .
 # change permissions to node user             # 
@@ -32,19 +28,29 @@ USER node
 
 # PRODUCTION
 FROM base as prod
-ENV NODE_ENV=production
-# ENV PORT=8800
+ENV NODE_ENV production
+# set PATH to include node_modules/.bin
+ENV PATH /usr/src/node_modules/.bin:$PATH
+# set working directory
+WORKDIR /usr/src/app
+# set user to node
+USER node
 CMD ["node",  "index.js"]
 # end of prod
 
 # DEVELOPMENT
 FROM base as dev
-ENV NODE_ENV=development
+ENV NODE_ENV development
+# set PATH to include node_modules/.bin
 ENV PATH /usr/src/node_modules/.bin:$PATH
 # RUN npm install --only=development \
 RUN npm ci --development \
   && mv node_modules ../ \
   && npm cache clean --force
+# set working directory
+WORKDIR /usr/src/app
+# set user to node
+USER node
 CMD ["nodemon",  "index.js"]
 # end of dev
 
