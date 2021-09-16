@@ -27,7 +27,7 @@ services:
     # image: mernlama:dev
     build:
       target: prod
-      context: MERNlama
+      context: expressAPI
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
@@ -42,7 +42,7 @@ services:
       mongo:
         condition: service_healthy
     volumes:
-      - ./MERNlama:/usr/src/app
+      - ./expressAPI:/usr/src/app
       # - /usr/src/app/node_modules
     healthcheck:
       test: ['CMD', 'npm run test']

@@ -40,7 +40,6 @@ USER node
 RUN npm run build
 # production environment
 FROM nginx:stable-alpine as prod
-
 # ENV NODE_ENV=production
 # EXPOSE 80
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
