@@ -1,0 +1,61 @@
+################################################################
+# API and dashboard configuration
+################################################################
+api:
+  # Dashboard
+  #
+  #
+  dashboard: true
+  insecure: true
+################################################################
+# Docker configuration backend
+################################################################
+providers:
+  docker:
+    # watch: true
+    exposedByDefault: false
+    # swarmMode: true
+################################################################
+# Traefik Logging
+################################################################
+log:
+  # level: INFO
+  level: DEBUG
+
+################################################################
+# Entrypoint
+################################################################
+entryPoints:
+  web:
+    address: ":80"
+    # redirect http to httpS
+    # http:
+    #   redirections:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
+  websecure:
+    address: ":443"
+
+################################################################
+# Challenge HTTP
+################################################################
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: ${e_mail}:janeDOE@mail.com 
+      storage: acme.json
+      httpChallenge:
+        entryPoint: web      
+      # tlsChallenge: true
+      # tls:
+      # tlsCertFile: /etc/ssl/certs/tls.crt
+      # tlsKeyFile: /etc/ssl/private/tls.key
+      # tlsCertChainFile: /etc/ssl/certs/tls-chain.crt
+      # tlsHostname:
+      #   - "*.example.com"
+      # tlsRenewBefore: 7         
+
+      # dnsChallenge:
+      # provider: digitalocean
+      # delayBeforeCheck: 0

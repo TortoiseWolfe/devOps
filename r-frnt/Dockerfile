@@ -38,13 +38,7 @@ ENV PATH /usr/src/node_modules/.bin:$PATH
 WORKDIR /usr/src/app
 USER node
 RUN npm run build
-# production environment
-FROM nginx:stable-alpine as prod
-# ENV NODE_ENV=production
-# EXPOSE 80
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-CMD ["nginx", "-g", "daemon off;"]
+# end of build
 
 # DEVELOPMENT
 FROM base as dev
@@ -64,3 +58,11 @@ CMD ["npm", "start"]
 # ENV NODE_ENV=development
 # CMD ["npm", "test"]
 # # end of test
+
+# production environment
+FROM nginx:stable-alpine as prod
+# ENV NODE_ENV=production
+# EXPOSE 80
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["nginx", "-g", "daemon off;"]

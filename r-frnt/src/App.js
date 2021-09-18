@@ -6,7 +6,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1><code>React</code> <code>Nginx</code> <code>Docker</code></h1>
+        <h2><code>MongoDB</code></h2>
+        <h2><code>Express</code></h2>
+        <h2><code>React / Nginx</code></h2>
+        {/* <h2><code>Node</code></h2> */}
+        <h2><code>Traefik</code></h2>
+        <h2><code>Docker</code></h2>
         <a
           className="App-link"
           href="https://github.com/TurtleWolfe/devOps"
