@@ -7,6 +7,17 @@ docker-compose up -d --build
 docker-compose down
 ```
 
+```bash
+docker stack rm traefik
+# docker info
+sudo rm -rf devOps/
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519DO
+git clone git@github.com:TurtleWolfe/devOps.git
+cd devOps
+docker stack deploy -c docker-compose.yml traefik
+```
+
 ## [Bash](https://www.google.com 'Docker Captain & David Herron')
 
 1. ~~previous bash script~~
