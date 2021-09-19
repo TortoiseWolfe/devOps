@@ -78,43 +78,45 @@ services:
   #     # - 'traefik.http.routers.mernlama.entrypoints=websecure'
   #     # - 'traefik.http.routers.mernlama.tls.certresolver=myresolver'
 
-  # # React-Nginx
-  # react:
-  #   image: react:prod
-  #   # image: react:dev
-  #   build:
-  #     # target: prod
-  #     context: r-frnt
-  #     dockerfile: ./Dockerfile
-  #   # environment:
-  #   #   CI: 'true'
-  #   ports:
-  #     # - 3000:3000
-  #     # - 80:80
-  #     - 3000:80
-  #   # depends_on:
-  #   #   mongo:
-  #   #     condition: service_healthy
-  #   restart: always
-  #   volumes:
-  #     # - /usr/src/app/node_modules
-  #     - ./r-frnt:/usr/src/app
-  #     - ./r-frnt/nginx:/etc/nginx/conf.d
-  #     # - ./nginx:/etc/nginx/conf.d
-  #   healthcheck:
-  #     test: ['CMD', 'CI=true npm run test']
-  #   # depends_on:
-  #   #   mernlama:
-  #   #     condition: service_healthy
-  #   labels:
-  #     # We set a label to tell Traefik to assign a hostname to the new service
-  #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.react.rule=Host(`react.docker.geolarp.com`)'
-  #     # - 'traefik.http.routers.react.service=react'
-  #     - 'traefik.http.services.react.loadbalancer.server.port=3000'
-  #     - 'traefik.http.routers.react.entrypoints=web'
-  #     # - 'traefik.http.routers.react.entrypoints=websecure'
-  #     # - 'traefik.http.routers.react.tls.certresolver=myresolver'
+  # React-Nginx
+  react:
+    image: react:prod
+    # image: react:dev
+    build:
+      # target: prod
+      context: r-frnt
+      dockerfile: ./Dockerfile
+    # environment:
+    #   CI: 'true'
+    ports:
+      # - 3000:3000
+      # - 80:80
+      - 3000:80
+    # depends_on:
+    #   mongo:
+    #     condition: service_healthy
+    restart: always
+    volumes:
+      # - /usr/src/app/node_modules
+      - ./r-frnt:/usr/src/app
+      - ./r-frnt/nginx:/etc/nginx/conf.d
+      # - ./nginx:/etc/nginx/conf.d
+      - ./r-frnt/build:/usr/share/nginx/html
+      # - ./html:/usr/share/nginx/html
+    healthcheck:
+      test: ['CMD', 'CI=true npm run test']
+    # depends_on:
+    #   mernlama:
+    #     condition: service_healthy
+    labels:
+      # We set a label to tell Traefik to assign a hostname to the new service
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.react.rule=Host(`geolarp.com`)'
+      # - 'traefik.http.routers.react.entrypoints=web'
+      - 'traefik.http.routers.react.entrypoints=websecure'
+      - 'traefik.http.routers.react.tls.certresolver=myresolver'
+      - 'traefik.http.routers.react.service=react'
+      - 'traefik.http.services.react.loadbalancer.server.port=3000'
 
   application:
     image: nginx
@@ -123,12 +125,11 @@ services:
     # Here we define our settings for traefik how to proxy our service.
     labels:
       # This is enableing treafik to proxy this service
-      - 'traefik.enable=true'
       # Here we have to define the URL
       - 'traefik.http.routers.myproject.rule=Host(`myproject.geolarp.com`)'
       # Here we are defining wich entrypoint should be used by clients to access this service
-      - 'traefik.http.routers.myproject.entrypoints=websecure'
       # - 'traefik.http.routers.myproject.entrypoints=web'
+      - 'traefik.http.routers.myproject.entrypoints=websecure'
       # Here we define in wich network treafik can find this service
       # - "traefik.docker.network=web"
       # This is the port that traefik should proxy
