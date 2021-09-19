@@ -101,7 +101,7 @@ services:
       - ./r-frnt:/usr/src/app
       - ./r-frnt/nginx:/etc/nginx/conf.d
       # - ./nginx:/etc/nginx/conf.d
-      - ./r-frnt/build:/usr/share/nginx/html
+      # - ./r-frnt/build:/usr/share/nginx/html
       # - ./html:/usr/share/nginx/html
     healthcheck:
       test: ['CMD', 'CI=true npm run test']
