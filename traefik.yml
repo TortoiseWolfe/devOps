@@ -29,11 +29,11 @@ entryPoints:
   web:
     address: ":80"
     # redirect http to httpS
-    # http:
-    #   redirections:
-    #     entryPoint:
-    #       to: websecure
-    #       scheme: https
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
   websecure:
     address: ":443"
 
@@ -43,7 +43,8 @@ entryPoints:
 certificatesResolvers:
   myresolver:
     acme:
-      email: ${e_mail}:janeDOE@mail.com 
+      # email: ${e_mail}:janeDOE@mail.com 
+      email: janeDOE@mail.com 
       storage: acme.json
       httpChallenge:
         entryPoint: web      

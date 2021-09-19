@@ -12,7 +12,7 @@ services:
   #     - './data/db:/data/db'
   #   restart: always
   #   healthcheck:
-  #     test: echo 'db.runCommand("ping").ok' | mongo geolarp:27017/test --quiet
+  #     test: echo 'db.runCommand("ping").ok' | mongo geolarp.com:27017/test --quiet
   #     interval: 10s
   #     timeout: 10s
   #     retries: 3
@@ -23,10 +23,10 @@ services:
   #   # local MongoDB for development
   #   # move to Atlas for Cloud Distribution in production
   #   labels:
-  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp`)'
+  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
   #     # We set a label to tell Traefik to assign a hostname to the new service
   #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp`)'
+  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
   #     # - 'traefik.http.routers.mongo.service=mongo'
   #     # - 'traefik.http.services.mongo.loadbalancer.server.port=27017'
   #     # - 'traefik.http.routers.mongo.entrypoints=web'
@@ -71,7 +71,7 @@ services:
   #   restart: always
   #   labels:
   #     # - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.geolarp`)'
+  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.geolarp.com`)'
   #     # - 'traefik.http.routers.mernlama.service=mernlama'
   #     # - 'traefik.http.services.mernlama.loadbalancer.server.port=8800'
   #     # - 'traefik.http.routers.mernlama.entrypoints=web'
@@ -109,7 +109,7 @@ services:
   #   labels:
   #     # We set a label to tell Traefik to assign a hostname to the new service
   #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.react.rule=Host(`react.docker.geolarp`)'
+  #     - 'traefik.http.routers.react.rule=Host(`react.docker.geolarp.com`)'
   #     # - 'traefik.http.routers.react.service=react'
   #     - 'traefik.http.services.react.loadbalancer.server.port=3000'
   #     - 'traefik.http.routers.react.entrypoints=web'
@@ -125,7 +125,7 @@ services:
       # This is enableing treafik to proxy this service
       - 'traefik.enable=true'
       # Here we have to define the URL
-      - 'traefik.http.routers.myproject.rule=Host(`myproject.geolarp`)'
+      - 'traefik.http.routers.myproject.rule=Host(`myproject.geolarp.com`)'
       # Here we are defining wich entrypoint should be used by clients to access this service
       - 'traefik.http.routers.myproject.entrypoints=websecure'
       # - 'traefik.http.routers.myproject.entrypoints=web'
@@ -181,7 +181,7 @@ services:
     # We set a label to tell Traefik to assign a hostname to the new service
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.whoami.rule=Host(`whoami.geolarp`)'
+      - 'traefik.http.routers.whoami.rule=Host(`whoami.geolarp.com`)'
       # - 'traefik.http.routers.whoami.entrypoints=web'
       - 'traefik.http.routers.whoami.entrypoints=websecure'
       - 'traefik.http.routers.whoami.tls.certresolver=myresolver'
@@ -193,7 +193,7 @@ services:
     image: mikesir87/cats:1.0
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.catapp.rule=Host(`catapp.geolarp`)'
+      - 'traefik.http.routers.catapp.rule=Host(`catapp.geolarp.com`)'
       # - 'traefik.http.routers.catapp.entrypoints=web'
       - 'traefik.http.routers.catapp.entrypoints=websecure'
       - 'traefik.http.routers.catapp.tls.certresolver=myresolver'
