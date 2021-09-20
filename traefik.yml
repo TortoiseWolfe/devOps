@@ -46,9 +46,10 @@ certificatesResolvers:
       # email: ${e_mail}:janeDOE@mail.com 
       email: janeDOE@mail.com 
       storage: acme.json
-      httpChallenge:
-        entryPoint: web      
+      # httpChallenge:
+        # entryPoint: web    
       # tlsChallenge: true
+      # dnsChallenge:
       # tls:
       # tlsCertFile: /etc/ssl/certs/tls.crt
       # tlsKeyFile: /etc/ssl/private/tls.key
@@ -57,6 +58,6 @@ certificatesResolvers:
       #   - "*.example.com"
       # tlsRenewBefore: 7         
 
-      # dnsChallenge:
-      # provider: digitalocean
-      # delayBeforeCheck: 0
+      dnsChallenge:
+        provider: digitalocean
+        delayBeforeCheck: 0

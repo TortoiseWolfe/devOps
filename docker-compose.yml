@@ -149,7 +149,11 @@ services:
     # The latest official supported Traefik docker image
     # image: traefik:v2.3
     image: traefik:v2.5.2
-    # environment:
+    environment:
+      # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
+      - 'DO_AUTH_TOKEN=${DO_AUTH_TOKEN}'
+      - 'DEV_MAIL=${DEV_MAIL}'
+      - 'LOCAL_HOST=${LOCAL_HOST}'
     #   - TRAEFIK_API_INSECURE=true
     #   - TRAEFIK_PROVIDERS_DOCKER=true
     #   - TRAEFIK_LOG_LEVEL=INFO
@@ -170,7 +174,7 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
         # Copies the Let's Encrypt certificate locally for ease of backing up
-      # - ./letsencrypt:/letsencrypt
+      - ./letsencrypt:/letsencrypt
       # Mounts the Traefik static configuration inside the Traefik container
       - ./traefik.yml:/etc/traefik/traefik.yml
       # So that Traefik can read the configuration file
