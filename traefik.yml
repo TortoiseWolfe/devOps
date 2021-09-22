@@ -7,6 +7,13 @@ api:
   #
   dashboard: true
   insecure: true
+
+
+################################################################
+# Enable Healthcheck
+################################################################
+ping: {}
+
 ################################################################
 # Docker configuration backend
 ################################################################
@@ -15,12 +22,73 @@ providers:
     # watch: true
     exposedByDefault: false
     # swarmMode: true
+
+################################################################
+# Access Logging
+################################################################
+# enable Access logs
+# accessLog: {}
+#Configuring Multiple Filters
+accessLog:
+  filters:    
+    statusCodes:
+      - "301"
+      - "302"
+      - "304"
+      - "400"
+      - "401"
+      - "403"
+      - "404"
+      - "405"
+      - "408"
+      - "500"
+      # - "502"
+      # - "503"
+      # - "504"
+      # - "507"
+      # - "508"
+      # - "510"
+      # - "511"
+      # - "520"
+
+    retryAttempts: true
+    minDuration: "10ms"
+    # minDuration: 10
+                                                  #  
+#     maxDuration: "10s"
+#     requestSize: "10B"
+#     responseSize: "10B"
+#     requestHeader:  "X-Custom-Header"
+#     responseHeader: "X-Custom-Header"
+#     requestHost: "www.example.com"
+#     requestPath: "/api/v1/users"
+#     requestMethod: "POST"
+#     requestScheme: "https"
+#     requestURL: "https://www.example.com/api/v1/users"
+#     responseStatus: "200"
+
 ################################################################
 # Traefik Logging
 ################################################################
 log:
-  # level: INFO
-  level: DEBUG
+  # level: DEBUG
+  # level: PANIC
+  # level: FATAL
+  # (Default is ERROR)
+  # level: ERROR
+  # level: WARN
+  level: INFO
+
+################################################################
+# Prometheus Metrics
+################################################################  
+# metrics:
+#   prometheus:
+#     buckets:
+#       - 0.1
+#       - 0.3
+#       - 1.2
+#       - 5.0
 
 ################################################################
 # Entrypoint
@@ -43,11 +111,12 @@ entryPoints:
 certificatesResolvers:
   myresolver:
     acme:
-      # email: ${e_mail}:janeDOE@mail.com 
-      email: janeDOE@mail.com 
-      storage: acme.json
-      # httpChallenge:
-        # entryPoint: web    
+      email: $${DEV_MAIL}:janeDOE@mail.com 
+      # email: janeDOE@mail.com 
+      # storage: acme.json
+      storage: ../letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web    
       # tlsChallenge: true
       # dnsChallenge:
       # tls:
@@ -58,6 +127,6 @@ certificatesResolvers:
       #   - "*.example.com"
       # tlsRenewBefore: 7         
 
-      dnsChallenge:
-        provider: digitalocean
-        delayBeforeCheck: 0
+      # dnsChallenge:
+      #   provider: digitalocean
+      #   delayBeforeCheck: 0

@@ -12,7 +12,7 @@ services:
   #     - './data/db:/data/db'
   #   restart: always
   #   healthcheck:
-  #     test: echo 'db.runCommand("ping").ok' | mongo geolarp.com:27017/test --quiet
+  #     test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
   #     interval: 10s
   #     timeout: 10s
   #     retries: 3
@@ -23,10 +23,10 @@ services:
   #   # local MongoDB for development
   #   # move to Atlas for Cloud Distribution in production
   #   labels:
-  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
+  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.localhost`)'
   #     # We set a label to tell Traefik to assign a hostname to the new service
   #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
+  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.localhost`)'
   #     # - 'traefik.http.routers.mongo.service=mongo'
   #     # - 'traefik.http.services.mongo.loadbalancer.server.port=27017'
   #     # - 'traefik.http.routers.mongo.entrypoints=web'
@@ -71,7 +71,7 @@ services:
   #   restart: always
   #   labels:
   #     # - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.geolarp.com`)'
+  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.localhost`)'
   #     # - 'traefik.http.routers.mernlama.service=mernlama'
   #     # - 'traefik.http.services.mernlama.loadbalancer.server.port=8800'
   #     # - 'traefik.http.routers.mernlama.entrypoints=web'
@@ -111,7 +111,7 @@ services:
     labels:
       # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.enable=true'
-      - 'traefik.http.routers.react.rule=Host(`geolarp.com`)'
+      - 'traefik.http.routers.react.rule=Host(`localhost`)'
       # - 'traefik.http.routers.react.entrypoints=web'
       - 'traefik.http.routers.react.entrypoints=websecure'
       - 'traefik.http.routers.react.tls.certresolver=myresolver'
@@ -119,7 +119,7 @@ services:
       - 'traefik.http.services.react.loadbalancer.server.port=80'
 
   application:
-    image: nginx
+    image: nginx:1.21.3-alpine
     # networks:
     #   - web
     # Here we define our settings for traefik how to proxy our service.
@@ -128,7 +128,7 @@ services:
       # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.enable=true'
       # Here we have to define the URL
-      - 'traefik.http.routers.myproject.rule=Host(`myproject.geolarp.com`)'
+      - 'traefik.http.routers.myproject.rule=Host(`myproject.localhost`)'
       # Here we are defining wich entrypoint should be used by clients to access this service
       # - 'traefik.http.routers.myproject.entrypoints=web'
       - 'traefik.http.routers.myproject.entrypoints=websecure'
@@ -138,7 +138,7 @@ services:
       - 'traefik.http.routers.myproject.tls.certresolver=myresolver'
       - 'traefik.http.routers.myproject.service=myproject'
       - 'traefik.http.services.myproject.loadbalancer.server.port=80'
-      # - 'DevMail=${e_mail}'
+      - 'DevMail=$${e_mail}'
     volumes:
       - ./r-frnt/build:/usr/share/nginx/html
       # - ./html:/usr/share/nginx/html
@@ -148,12 +148,12 @@ services:
   traefik:
     # The latest official supported Traefik docker image
     # image: traefik:v2.3
-    image: traefik:v2.5.2
+    image: traefik:v2.5.3
     environment:
       # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
-      - 'DO_AUTH_TOKEN=${DO_AUTH_TOKEN}'
-      - 'DEV_MAIL=${DEV_MAIL}'
-      - 'LOCAL_HOST=${LOCAL_HOST}'
+      - 'DO_AUTH_TOKEN=$${DO_AUTH_TOKEN}'
+      - 'DEV_MAIL=$${DEV_MAIL}'
+      - 'LOCAL_HOST=$${LOCAL_HOST}'
     #   - TRAEFIK_API_INSECURE=true
     #   - TRAEFIK_PROVIDERS_DOCKER=true
     #   - TRAEFIK_LOG_LEVEL=INFO
@@ -174,11 +174,21 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
         # Copies the Let's Encrypt certificate locally for ease of backing up
-      - ./letsencrypt:/letsencrypt
+      - ./../letsencrypt:/letsencrypt
       # Mounts the Traefik static configuration inside the Traefik container
       - ./traefik.yml:/etc/traefik/traefik.yml
       # So that Traefik can read the configuration file
       # - ./traefik.toml:/traefik.toml
+    healthcheck:
+      test: ['CMD', 'traefik', 'healthcheck']
+      interval: 10s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+    # deploy:
+    #   labels:
+    #     - 'traefik.enable=true'
+    #     - 'traefik.http.routers.myproject.rule=Host(`myproject.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
 
   # WhoAmI
   whoami:
@@ -187,7 +197,7 @@ services:
     # We set a label to tell Traefik to assign a hostname to the new service
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.whoami.rule=Host(`whoami.geolarp.com`)'
+      - 'traefik.http.routers.whoami.rule=Host(`whoami.localhost`)'
       # - 'traefik.http.routers.whoami.entrypoints=web'
       - 'traefik.http.routers.whoami.entrypoints=websecure'
       - 'traefik.http.routers.whoami.tls.certresolver=myresolver'
@@ -199,9 +209,64 @@ services:
     image: mikesir87/cats:1.0
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.catapp.rule=Host(`catapp.geolarp.com`)'
-      # - 'traefik.http.routers.catapp.entrypoints=web'
-      - 'traefik.http.routers.catapp.entrypoints=websecure'
-      - 'traefik.http.routers.catapp.tls.certresolver=myresolver'
+      # Routers
+      - 'traefik.http.routers.catapp.rule=Host(`catapp.localhost`)'
       - 'traefik.http.routers.catapp.service=catapp'
+      # - "traefik.http.routers.catapp.entrypoints=web"
+      - 'traefik.http.routers.catapp.entrypoints=websecure'
+      - 'traefik.http.routers.catapp.middlewares=test-auth'
+
+      - 'traefik.http.routers.catapp.tls.certresolver=myresolver'
+      # Services
       - 'traefik.http.services.catapp.loadbalancer.server.port=5000'
+      # Middleware BasicAuth
+      - 'traefik.http.middlewares.test-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,janeDOE:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+      # user1: traefik password: training
+      # user2: user2 password: test123
+      # Create hash password -> echo $(htpasswd -nb janeDOE test123) | sed -e s/\\$/\\$\\$/g
+
+  # WORDPRESS
+  wordpress:
+    image: wordpress
+    restart: always
+    # ports:
+    #   - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.wordpress.rule=Host(`wordpress.localhost`)'
+      # - 'traefik.http.routers.wordpress.entrypoints=web'
+      - 'traefik.http.routers.wordpress.entrypoints=websecure'
+      - 'traefik.http.routers.wordpress.tls.certresolver=myresolver'
+      - 'traefik.http.routers.wordpress.service=wordpress'
+      - 'traefik.http.services.wordpress.loadbalancer.server.port=80'
+
+  # MYSQL
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.db.rule=Host(`db.localhost`)'
+      # - 'traefik.http.routers.db.entrypoints=web'
+      - 'traefik.http.routers.db.entrypoints=websecure'
+      - 'traefik.http.routers.db.tls.certresolver=myresolver'
+      - 'traefik.http.routers.db.service=db'
+      - 'traefik.http.services.db.loadbalancer.server.port=3306'
+
+volumes:
+  wordpress:
+  db:

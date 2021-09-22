@@ -60,7 +60,7 @@ CMD ["npm", "start"]
 # # end of test
 
 # production environment
-FROM nginx:stable-alpine as prod
+FROM nginx:1.21.3-alpine as prod
 # ENV NODE_ENV=production
 # EXPOSE 80
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
