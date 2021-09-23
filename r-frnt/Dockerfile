@@ -44,7 +44,7 @@ RUN npm run build
 FROM base as dev
 ENV NODE_ENV=development
 ENV PATH /usr/src/node_modules/.bin:$PATH
-# ENV CI=true
+ENV CI=true
 WORKDIR /usr/src/app
 # RUN npm install --only=development \
 RUN npm ci --development \
@@ -61,7 +61,7 @@ CMD ["npm", "start"]
 
 # production environment
 FROM nginx:1.21.3-alpine as prod
-# ENV NODE_ENV=production
+ENV NODE_ENV=production
 # EXPOSE 80
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf

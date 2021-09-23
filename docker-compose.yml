@@ -81,9 +81,10 @@ services:
   # React-Nginx
   react:
     image: turtlewolfe/geolarp:prod
-    # image: react:dev
+    # image: turtlewolfe/geolarp:dev
     build:
       target: prod
+      # target: dev
       context: r-frnt
       dockerfile: ./Dockerfile
     # environment:
@@ -108,41 +109,105 @@ services:
     # depends_on:
     #   mernlama:
     #     condition: service_healthy
+    # labels:
+    # We set a label to tell Traefik to assign a hostname to the new service
+    # - 'traefik.enable=true'
+    # - 'traefik.http.routers.react.rule=Host(`localhost`)'
+    # - 'traefik.http.routers.react.entrypoints=web'
+    # - 'traefik.http.routers.react.entrypoints=websecure'
+    # - 'traefik.http.routers.react.tls.certresolver=myresolver'
+    # - 'traefik.http.routers.react.service=react'
+    # - 'traefik.http.services.react.loadbalancer.server.port=80'
     labels:
-      # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.enable=true'
+      # Routers
       - 'traefik.http.routers.react.rule=Host(`localhost`)'
-      # - 'traefik.http.routers.react.entrypoints=web'
-      - 'traefik.http.routers.react.entrypoints=websecure'
-      - 'traefik.http.routers.react.tls.certresolver=myresolver'
-      - 'traefik.http.routers.react.service=react'
-      - 'traefik.http.services.react.loadbalancer.server.port=80'
+      # - "traefik.http.routers.react.rule=Host(`<your-domain-here>`)"
+      # - 'traefik.http.routers.react.service=react'
+      - 'traefik.http.routers.react.entrypoints=web'
+      - 'traefik.http.routers.react.middlewares=t-react-redirectscheme'
+      - 'traefik.http.routers.react-secure.rule=Host(`localhost`)'
+      - 'traefik.http.routers.react-secure.entrypoints=websecure'
+      - 'traefik.http.routers.react-secure.tls.certresolver=myresolver'
+      - 'traefik.http.routers.react-secure.middlewares=t-react-compress,t-react-errorpages,t-react-ratelimit'
+      # Services
+      - 'traefik.http.services.react-secure.loadbalancer.server.port=80'
+      # - 'traefik.http.services.react-secure.loadbalancer.server.port=3000'
+      # Middleware BasicAuth
+      # - 'traefik.http.middlewares.t-react-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+      # user1: traefik password: training
+      # user2: user2 password: test123
+      # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
+      # Compress Middleware
+      - 'traefik.http.middlewares.t-react-compress.compress=true'
+      # Error Pages Middleware
+      - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
+      # Rate Limit Middleware
+      - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
+      # Redirect Scheme HTTP -> HTTPS
+      - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.scheme=https'
+      - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.permanent=true'
 
-  application:
+  # StoryBook-Nginx
+  storybook:
     image: nginx:1.21.3-alpine
     # networks:
     #   - web
-    # Here we define our settings for traefik how to proxy our service.
-    labels:
-      # This is enableing treafik to proxy this service
-      # We set a label to tell Traefik to assign a hostname to the new service
-      - 'traefik.enable=true'
-      # Here we have to define the URL
-      - 'traefik.http.routers.myproject.rule=Host(`myproject.localhost`)'
-      # Here we are defining wich entrypoint should be used by clients to access this service
-      # - 'traefik.http.routers.myproject.entrypoints=web'
-      - 'traefik.http.routers.myproject.entrypoints=websecure'
-      # Here we define in wich network treafik can find this service
-      # - "traefik.docker.network=web"
-      # This is the port that traefik should proxy
-      - 'traefik.http.routers.myproject.tls.certresolver=myresolver'
-      - 'traefik.http.routers.myproject.service=myproject'
-      - 'traefik.http.services.myproject.loadbalancer.server.port=80'
-      - 'DevMail=$${e_mail}'
     volumes:
       - ./r-frnt/build:/usr/share/nginx/html
       # - ./html:/usr/share/nginx/html
     restart: always
+    # Here we define our settings for traefik how to proxy our service.
+    # labels:
+    # This is enableing treafik to proxy this service
+    # We set a label to tell Traefik to assign a hostname to the new service
+    # - 'traefik.enable=true'
+    # Here we have to define the URL
+    # - 'traefik.http.routers.storybook.rule=Host(`storybook.localhost`)'
+    # Here we are defining wich entrypoint should be used by clients to access this service
+    # - 'traefik.http.routers.storybook.entrypoints=web'
+    # - 'traefik.http.routers.storybook.entrypoints=websecure'
+    # Here we define in wich network treafik can find this service
+    # - "traefik.docker.network=web"
+    # This is the port that traefik should proxy
+    # - 'traefik.http.routers.storybook.tls.certresolver=myresolver'
+    # - 'traefik.http.routers.storybook.service=storybook'
+    # - 'traefik.http.services.storybook.loadbalancer.server.port=80'
+
+    labels:
+      - 'DevMail=$${e_mail}'
+      - 'traefik.enable=true'
+      # Routers
+      - 'traefik.http.routers.storybook.rule=Host(`storybook.localhost`)'
+      # - "traefik.http.routers.storybook.rule=Host(`<your-domain-here>`)"
+      # - 'traefik.http.routers.storybook.service=storybook'
+      - 'traefik.http.routers.storybook.entrypoints=web'
+
+      - 'traefik.http.routers.storybook.middlewares=t-storybook-redirectscheme'
+      - 'traefik.http.routers.storybook-secure.rule=Host(`storybook.localhost`)'
+      - 'traefik.http.routers.storybook-secure.entrypoints=websecure'
+      - 'traefik.http.routers.storybook-secure.tls.certresolver=myresolver'
+      - 'traefik.http.routers.storybook-secure.middlewares=t-storybook-compress,t-storybook-errorpages,t-storybook-ratelimit'
+      # Services
+      - 'traefik.http.services.storybook-secure.loadbalancer.server.port=80'
+      # Middleware BasicAuth
+      # - 'traefik.http.middlewares.t-storybook-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+      # user1: traefik password: training
+      # user2: user2 password: test123
+      # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
+      # Compress Middleware
+      - 'traefik.http.middlewares.t-storybook-compress.compress=true'
+      # Error Pages Middleware
+      - 'traefik.http.middlewares.t-storybook-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.t-storybook-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.t-storybook-errorpages.errors.query=/{status}.html'
+      # Rate Limit Middleware
+      - 'traefik.http.middlewares.t-storybook-ratelimit.ratelimit.average=2'
+      # Redirect Scheme HTTP -> HTTPS
+      - 'traefik.http.middlewares.t-storybook-redirectscheme.redirectscheme.scheme=https'
+      - 'traefik.http.middlewares.t-storybook-redirectscheme.redirectscheme.permanent=true'
 
   # TRAEFIK
   traefik:
@@ -211,19 +276,44 @@ services:
       - 'traefik.enable=true'
       # Routers
       - 'traefik.http.routers.catapp.rule=Host(`catapp.localhost`)'
-      - 'traefik.http.routers.catapp.service=catapp'
-      # - "traefik.http.routers.catapp.entrypoints=web"
-      - 'traefik.http.routers.catapp.entrypoints=websecure'
-      - 'traefik.http.routers.catapp.middlewares=test-auth'
+      # - "traefik.http.routers.catapp.rule=Host(`<your-domain-here>`)"
+      # - 'traefik.http.routers.catapp.service=catapp'
+      - 'traefik.http.routers.catapp.entrypoints=web'
 
-      - 'traefik.http.routers.catapp.tls.certresolver=myresolver'
+      - 'traefik.http.routers.catapp.middlewares=test-redirectscheme'
+      - 'traefik.http.routers.catapp-secure.rule=Host(`catapp.localhost`)'
+      - 'traefik.http.routers.catapp-secure.entrypoints=websecure'
+      - 'traefik.http.routers.catapp-secure.tls.certresolver=myresolver'
+      - 'traefik.http.routers.catapp-secure.middlewares=test-auth,test-compress,test-errorpages,test-ratelimit'
       # Services
-      - 'traefik.http.services.catapp.loadbalancer.server.port=5000'
+      - 'traefik.http.services.catapp-secure.loadbalancer.server.port=5000'
       # Middleware BasicAuth
-      - 'traefik.http.middlewares.test-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,janeDOE:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+      - 'traefik.http.middlewares.test-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
       # user1: traefik password: training
       # user2: user2 password: test123
-      # Create hash password -> echo $(htpasswd -nb janeDOE test123) | sed -e s/\\$/\\$\\$/g
+      # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
+      # Compress Middleware
+      - 'traefik.http.middlewares.test-compress.compress=true'
+      # Error Pages Middleware
+      - 'traefik.http.middlewares.test-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.test-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.test-errorpages.errors.query=/{status}.html'
+      # Rate Limit Middleware
+      - 'traefik.http.middlewares.test-ratelimit.ratelimit.average=2'
+      # Redirect Scheme HTTP -> HTTPS
+      - 'traefik.http.middlewares.test-redirectscheme.redirectscheme.scheme=https'
+      - 'traefik.http.middlewares.test-redirectscheme.redirectscheme.permanent=true'
+
+  # Error Page service
+  error:
+    image: guillaumebriday/traefik-custom-error-pages
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.error.rule=Host(`error.localhost`)'
+      - 'traefik.http.routers.error.service=error'
+      - 'traefik.http.services.error.loadbalancer.server.port=80'
+      # - traefik.frontend.rule=PathPrefixStrip:/wait
+      - 'traefik.http.routers.error.entrypoints=web'
 
   # WORDPRESS
   wordpress:
