@@ -12,7 +12,7 @@ services:
   #     - './data/db:/data/db'
   #   restart: always
   #   healthcheck:
-  #     test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+  #     test: echo 'db.runCommand("ping").ok' | mongo geolarp.com:27017/test --quiet
   #     interval: 10s
   #     timeout: 10s
   #     retries: 3
@@ -23,10 +23,10 @@ services:
   #   # local MongoDB for development
   #   # move to Atlas for Cloud Distribution in production
   #   labels:
-  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.localhost`)'
+  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
   #     # We set a label to tell Traefik to assign a hostname to the new service
   #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.localhost`)'
+  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.geolarp.com`)'
   #     # - 'traefik.http.routers.mongo.service=mongo'
   #     # - 'traefik.http.services.mongo.loadbalancer.server.port=27017'
   #     # - 'traefik.http.routers.mongo.entrypoints=web'
@@ -71,7 +71,7 @@ services:
   #   restart: always
   #   labels:
   #     # - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.localhost`)'
+  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.geolarp.com`)'
   #     # - 'traefik.http.routers.mernlama.service=mernlama'
   #     # - 'traefik.http.services.mernlama.loadbalancer.server.port=8800'
   #     # - 'traefik.http.routers.mernlama.entrypoints=web'
@@ -112,7 +112,7 @@ services:
     # labels:
     # We set a label to tell Traefik to assign a hostname to the new service
     # - 'traefik.enable=true'
-    # - 'traefik.http.routers.react.rule=Host(`localhost`)'
+    # - 'traefik.http.routers.react.rule=Host(`geolarp.com`)'
     # - 'traefik.http.routers.react.entrypoints=web'
     # - 'traefik.http.routers.react.entrypoints=websecure'
     # - 'traefik.http.routers.react.tls.certresolver=myresolver'
@@ -121,12 +121,12 @@ services:
     labels:
       - 'traefik.enable=true'
       # Routers
-      - 'traefik.http.routers.react.rule=Host(`localhost`)'
+      - 'traefik.http.routers.react.rule=Host(`geolarp.com`)'
       # - "traefik.http.routers.react.rule=Host(`<your-domain-here>`)"
       # - 'traefik.http.routers.react.service=react'
       - 'traefik.http.routers.react.entrypoints=web'
       - 'traefik.http.routers.react.middlewares=t-react-redirectscheme'
-      - 'traefik.http.routers.react-secure.rule=Host(`localhost`)'
+      - 'traefik.http.routers.react-secure.rule=Host(`geolarp.com`)'
       - 'traefik.http.routers.react-secure.entrypoints=websecure'
       - 'traefik.http.routers.react-secure.tls.certresolver=myresolver'
       - 'traefik.http.routers.react-secure.middlewares=t-react-compress,t-react-errorpages,t-react-ratelimit'
@@ -165,7 +165,7 @@ services:
     # We set a label to tell Traefik to assign a hostname to the new service
     # - 'traefik.enable=true'
     # Here we have to define the URL
-    # - 'traefik.http.routers.storybook.rule=Host(`storybook.localhost`)'
+    # - 'traefik.http.routers.storybook.rule=Host(`storybook.geolarp.com`)'
     # Here we are defining wich entrypoint should be used by clients to access this service
     # - 'traefik.http.routers.storybook.entrypoints=web'
     # - 'traefik.http.routers.storybook.entrypoints=websecure'
@@ -180,13 +180,13 @@ services:
       - 'DevMail=$${e_mail}'
       - 'traefik.enable=true'
       # Routers
-      - 'traefik.http.routers.storybook.rule=Host(`storybook.localhost`)'
+      - 'traefik.http.routers.storybook.rule=Host(`storybook.geolarp.com`)'
       # - "traefik.http.routers.storybook.rule=Host(`<your-domain-here>`)"
       # - 'traefik.http.routers.storybook.service=storybook'
       - 'traefik.http.routers.storybook.entrypoints=web'
 
       - 'traefik.http.routers.storybook.middlewares=t-storybook-redirectscheme'
-      - 'traefik.http.routers.storybook-secure.rule=Host(`storybook.localhost`)'
+      - 'traefik.http.routers.storybook-secure.rule=Host(`storybook.geolarp.com`)'
       - 'traefik.http.routers.storybook-secure.entrypoints=websecure'
       - 'traefik.http.routers.storybook-secure.tls.certresolver=myresolver'
       - 'traefik.http.routers.storybook-secure.middlewares=t-storybook-compress,t-storybook-errorpages,t-storybook-ratelimit'
@@ -253,7 +253,7 @@ services:
     # deploy:
     #   labels:
     #     - 'traefik.enable=true'
-    #     - 'traefik.http.routers.myproject.rule=Host(`myproject.localhost`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
+    #     - 'traefik.http.routers.myproject.rule=Host(`myproject.geolarp.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
 
   # WhoAmI
   whoami:
@@ -262,7 +262,7 @@ services:
     # We set a label to tell Traefik to assign a hostname to the new service
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.whoami.rule=Host(`whoami.localhost`)'
+      - 'traefik.http.routers.whoami.rule=Host(`whoami.geolarp.com`)'
       # - 'traefik.http.routers.whoami.entrypoints=web'
       - 'traefik.http.routers.whoami.entrypoints=websecure'
       - 'traefik.http.routers.whoami.tls.certresolver=myresolver'
@@ -275,13 +275,13 @@ services:
     labels:
       - 'traefik.enable=true'
       # Routers
-      - 'traefik.http.routers.catapp.rule=Host(`catapp.localhost`)'
+      - 'traefik.http.routers.catapp.rule=Host(`catapp.geolarp.com`)'
       # - "traefik.http.routers.catapp.rule=Host(`<your-domain-here>`)"
       # - 'traefik.http.routers.catapp.service=catapp'
       - 'traefik.http.routers.catapp.entrypoints=web'
 
       - 'traefik.http.routers.catapp.middlewares=test-redirectscheme'
-      - 'traefik.http.routers.catapp-secure.rule=Host(`catapp.localhost`)'
+      - 'traefik.http.routers.catapp-secure.rule=Host(`catapp.geolarp.com`)'
       - 'traefik.http.routers.catapp-secure.entrypoints=websecure'
       - 'traefik.http.routers.catapp-secure.tls.certresolver=myresolver'
       - 'traefik.http.routers.catapp-secure.middlewares=test-auth,test-compress,test-errorpages,test-ratelimit'
@@ -309,7 +309,7 @@ services:
     image: guillaumebriday/traefik-custom-error-pages
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.error.rule=Host(`error.localhost`)'
+      - 'traefik.http.routers.error.rule=Host(`error.geolarp.com`)'
       - 'traefik.http.routers.error.service=error'
       - 'traefik.http.services.error.loadbalancer.server.port=80'
       # - traefik.frontend.rule=PathPrefixStrip:/wait
@@ -330,7 +330,7 @@ services:
       - wordpress:/var/www/html
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.wordpress.rule=Host(`wordpress.localhost`)'
+      - 'traefik.http.routers.wordpress.rule=Host(`wordpress.geolarp.com`)'
       # - 'traefik.http.routers.wordpress.entrypoints=web'
       - 'traefik.http.routers.wordpress.entrypoints=websecure'
       - 'traefik.http.routers.wordpress.tls.certresolver=myresolver'
@@ -350,7 +350,7 @@ services:
       - db:/var/lib/mysql
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.db.rule=Host(`db.localhost`)'
+      - 'traefik.http.routers.db.rule=Host(`db.geolarp.com`)'
       # - 'traefik.http.routers.db.entrypoints=web'
       - 'traefik.http.routers.db.entrypoints=websecure'
       - 'traefik.http.routers.db.tls.certresolver=myresolver'

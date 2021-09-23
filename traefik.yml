@@ -8,7 +8,6 @@ api:
   dashboard: true
   insecure: true
 
-
 ################################################################
 # Enable Healthcheck
 ################################################################
@@ -30,18 +29,18 @@ providers:
 # accessLog: {}
 #Configuring Multiple Filters
 accessLog:
-  filters:    
+  filters:
     statusCodes:
-      - "301"
-      - "302"
-      - "304"
-      - "400"
-      - "401"
-      - "403"
-      - "404"
-      - "405"
-      - "408"
-      - "500"
+      - '301'
+      - '302'
+      - '304'
+      - '400'
+      - '401'
+      - '403'
+      - '404'
+      - '405'
+      - '408'
+      - '500'
       # - "502"
       # - "503"
       # - "504"
@@ -52,9 +51,9 @@ accessLog:
       # - "520"
 
     retryAttempts: true
-    minDuration: "10ms"
+    minDuration: '10ms'
     # minDuration: 10
-                                                  #  
+    #
 #     maxDuration: "10s"
 #     requestSize: "10B"
 #     responseSize: "10B"
@@ -81,7 +80,7 @@ log:
 
 ################################################################
 # Prometheus Metrics
-################################################################  
+################################################################
 # metrics:
 #   prometheus:
 #     buckets:
@@ -95,7 +94,7 @@ log:
 ################################################################
 entryPoints:
   web:
-    address: ":80"
+    address: ':80'
     # redirect http to httpS
     # http:
     #   redirections:
@@ -103,7 +102,7 @@ entryPoints:
     #       to: websecure
     #       scheme: https
   websecure:
-    address: ":443"
+    address: ':443'
 
 ################################################################
 # Challenge HTTP
@@ -111,12 +110,12 @@ entryPoints:
 certificatesResolvers:
   myresolver:
     acme:
-      email: $${DEV_MAIL}:janeDOE@mail.com 
-      # email: janeDOE@mail.com 
+      email: $${DEV_MAIL}:janeDOE@mail.com
+      # email: janeDOE@mail.com
       # storage: acme.json
       storage: ../letsencrypt/acme.json
-      httpChallenge:
-        entryPoint: web    
+      # httpChallenge:
+      #   entryPoint: web
       # tlsChallenge: true
       # dnsChallenge:
       # tls:
@@ -125,8 +124,8 @@ certificatesResolvers:
       # tlsCertChainFile: /etc/ssl/certs/tls-chain.crt
       # tlsHostname:
       #   - "*.example.com"
-      # tlsRenewBefore: 7         
+      # tlsRenewBefore: 7
 
-      # dnsChallenge:
-      #   provider: digitalocean
-      #   delayBeforeCheck: 0
+      dnsChallenge:
+        provider: digitalocean
+        delayBeforeCheck: 0
