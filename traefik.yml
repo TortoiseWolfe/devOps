@@ -110,13 +110,13 @@ entryPoints:
 certificatesResolvers:
   myresolver:
     acme:
-      email: $${DEV_MAIL}:janeDOE@mail.com
+      email: ${DEV_MAIL}:janeDOE@mail.com
       # email: janeDOE@mail.com
       # storage: acme.json
       storage: ../letsencrypt/acme.json
       # httpChallenge:
       #   entryPoint: web
-      # tlsChallenge: true
+      tlsChallenge: true
       # dnsChallenge:
       # tls:
       # tlsCertFile: /etc/ssl/certs/tls.crt
@@ -126,6 +126,6 @@ certificatesResolvers:
       #   - "*.example.com"
       # tlsRenewBefore: 7
 
-      dnsChallenge:
-        provider: digitalocean
-        delayBeforeCheck: 0
+      # dnsChallenge:
+      #   provider: digitalocean
+      #   delayBeforeCheck: 0

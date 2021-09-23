@@ -3,6 +3,8 @@
 <!-- ## [I'm an inline-style link with title](https://www.google.com "Google's Homepage") -->
 
 ```bash
+export DEV_MAIL=janeDOE@mail.com
+export LOCAL_HOST=localhost
 docker-compose up -d --build
 docker-compose down
 ```
