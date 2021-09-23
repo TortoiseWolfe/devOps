@@ -87,16 +87,15 @@ services:
       target: dev
       context: r-frnt
       dockerfile: ./Dockerfile
-    environment:
-      # - CI=true
-      # - NODE_ENV=production
-      - LOCAL_HOST=${LOCAL_HOST:-localhost}
+    # environment:
+    # - CI=true
+    # - NODE_ENV=production
+    # - LOCAL_HOST=${LOCAL_HOST:-localhost}
     # ports:
     # - 3000:3000
-    # - 80:80
-    # - 3000:80
     # depends_on:
     #   mongo:
+    #   mernlama:
     #     condition: service_healthy
     restart: always
     volumes:
@@ -108,49 +107,52 @@ services:
       # - ./html:/usr/share/nginx/html
     # healthcheck:
     #   test: ['CMD', 'CI=true npm run test']
-    # depends_on:
-    #   mernlama:
-    #     condition: service_healthy
-    # labels:
-    # We set a label to tell Traefik to assign a hostname to the new service
-    # - 'traefik.enable=true'
-    # - 'traefik.http.routers.react.rule=Host(`${LOCAL_HOST:-localhost}`)'
-    # - 'traefik.http.routers.react.entrypoints=web'
-    # - 'traefik.http.routers.react.entrypoints=websecure'
-    # - 'traefik.http.routers.react.tls.certresolver=myresolver'
-    # - 'traefik.http.routers.react.service=react'
-    # - 'traefik.http.services.react.loadbalancer.server.port=80'
     labels:
       - 'traefik.enable=true'
       # Routers
+      # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.http.routers.react.rule=Host(`${LOCAL_HOST:-localhost}`)'
-      # - "traefik.http.routers.react.rule=Host(`<your-domain-here>`)"
-      # - 'traefik.http.routers.react.service=react'
       - 'traefik.http.routers.react.entrypoints=web'
-      - 'traefik.http.routers.react.middlewares=t-react-redirectscheme'
-      - 'traefik.http.routers.react-secure.rule=Host(`${LOCAL_HOST:-localhost}`)'
-      - 'traefik.http.routers.react-secure.entrypoints=websecure'
-      - 'traefik.http.routers.react-secure.tls.certresolver=myresolver'
-      - 'traefik.http.routers.react-secure.middlewares=t-react-compress,t-react-errorpages,t-react-ratelimit'
+      - 'traefik.http.routers.react.entrypoints=websecure'
+      - 'traefik.http.routers.react.tls.certresolver=myresolver'
+      # - 'traefik.http.routers.react.service=react'
+
       # Services
-      # - 'traefik.http.services.react-secure.loadbalancer.server.port=80'
-      - 'traefik.http.services.react-secure.loadbalancer.server.port=3000'
+      - 'traefik.http.services.react.loadbalancer.server.port=3000'
       # Middleware BasicAuth
-      # - 'traefik.http.middlewares.t-react-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
-      # user1: traefik password: training
-      # user2: user2 password: test123
-      # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
       # Compress Middleware
-      - 'traefik.http.middlewares.t-react-compress.compress=true'
       # Error Pages Middleware
-      - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
-      - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
-      - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
       # Rate Limit Middleware
-      - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
       # Redirect Scheme HTTP -> HTTPS
-      - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.scheme=https'
-      - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.permanent=true'
+
+    # labels:
+    #   - 'traefik.enable=true'
+    #   # Routers
+    #   - 'traefik.http.routers.react.rule=Host(`${LOCAL_HOST:-localhost}`)'
+    #   # - "traefik.http.routers.react.rule=Host(`<your-domain-here>`)"
+    #   # - 'traefik.http.routers.react.service=react'
+    #   - 'traefik.http.routers.react.entrypoints=web'
+    #   - 'traefik.http.routers.react.middlewares=t-react-redirectscheme'
+
+    #   - 'traefik.http.routers.react-secure.rule=Host(`${LOCAL_HOST:-localhost}`)'
+    #   - 'traefik.http.routers.react-secure.entrypoints=websecure'
+    #   - 'traefik.http.routers.react-secure.tls.certresolver=myresolver'
+    #   - 'traefik.http.routers.react-secure.middlewares=t-react-compress,t-react-errorpages,t-react-ratelimit'
+    #   # Services
+    #   # - 'traefik.http.services.react-secure.loadbalancer.server.port=80'
+    #   - 'traefik.http.services.react-secure.loadbalancer.server.port=3000'
+    #   # Middleware BasicAuth
+    #   # Compress Middleware
+    #   - 'traefik.http.middlewares.t-react-compress.compress=true'
+    #   # Error Pages Middleware
+    #   - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
+    #   - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
+    #   - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
+    #   # Rate Limit Middleware
+    #   - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
+    #   # Redirect Scheme HTTP -> HTTPS
+    #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.scheme=https'
+    #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.permanent=true'
 
   # StoryBook-Nginx
   storybook:
@@ -162,65 +164,33 @@ services:
       # - ./html:/usr/share/nginx/html
     restart: always
     # Here we define our settings for traefik how to proxy our service.
-    # labels:
-    # This is enableing treafik to proxy this service
-    # We set a label to tell Traefik to assign a hostname to the new service
-    # - 'traefik.enable=true'
-    # Here we have to define the URL
-    # - 'traefik.http.routers.storybook.rule=Host(`storybook.${LOCAL_HOST:-localhost}`)'
-    # Here we are defining wich entrypoint should be used by clients to access this service
-    # - 'traefik.http.routers.storybook.entrypoints=web'
-    # - 'traefik.http.routers.storybook.entrypoints=websecure'
-    # Here we define in wich network treafik can find this service
-    # - "traefik.docker.network=web"
-    # This is the port that traefik should proxy
-    # - 'traefik.http.routers.storybook.tls.certresolver=myresolver'
-    # - 'traefik.http.routers.storybook.service=storybook'
-    # - 'traefik.http.services.storybook.loadbalancer.server.port=80'
-
     labels:
-      - 'DevMail=$${e_mail}'
+      - 'DevMail=${DEV_MAIL:-joey}'
+      # This is enableing treafik to proxy this service
+      # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.enable=true'
-      # Routers
+      # Here we have to define the URL
       - 'traefik.http.routers.storybook.rule=Host(`storybook.${LOCAL_HOST:-localhost}`)'
-      # - "traefik.http.routers.storybook.rule=Host(`<your-domain-here>`)"
-      # - 'traefik.http.routers.storybook.service=storybook'
+      # Here we are defining wich entrypoint should be used by clients to access this service
       - 'traefik.http.routers.storybook.entrypoints=web'
-
-      - 'traefik.http.routers.storybook.middlewares=t-storybook-redirectscheme'
-      - 'traefik.http.routers.storybook-secure.rule=Host(`storybook.${LOCAL_HOST:-localhost}`)'
-      - 'traefik.http.routers.storybook-secure.entrypoints=websecure'
-      - 'traefik.http.routers.storybook-secure.tls.certresolver=myresolver'
-      - 'traefik.http.routers.storybook-secure.middlewares=t-storybook-compress,t-storybook-errorpages,t-storybook-ratelimit'
-      # Services
-      - 'traefik.http.services.storybook-secure.loadbalancer.server.port=80'
-      # Middleware BasicAuth
-      # - 'traefik.http.middlewares.t-storybook-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
-      # user1: traefik password: training
-      # user2: user2 password: test123
-      # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
-      # Compress Middleware
-      - 'traefik.http.middlewares.t-storybook-compress.compress=true'
-      # Error Pages Middleware
-      - 'traefik.http.middlewares.t-storybook-errorpages.errors.status=400-599'
-      - 'traefik.http.middlewares.t-storybook-errorpages.errors.service=error'
-      - 'traefik.http.middlewares.t-storybook-errorpages.errors.query=/{status}.html'
-      # Rate Limit Middleware
-      - 'traefik.http.middlewares.t-storybook-ratelimit.ratelimit.average=2'
-      # Redirect Scheme HTTP -> HTTPS
-      - 'traefik.http.middlewares.t-storybook-redirectscheme.redirectscheme.scheme=https'
-      - 'traefik.http.middlewares.t-storybook-redirectscheme.redirectscheme.permanent=true'
+      # - 'traefik.http.routers.storybook.entrypoints=websecure'
+      # Here we define in wich network treafik can find this service
+      # - "traefik.docker.network=web"
+      - 'traefik.http.routers.storybook.tls.certresolver=myresolver'
+      # - 'traefik.http.routers.storybook.service=storybook'
+      # This is the port that traefik should proxy
+      - 'traefik.http.services.storybook.loadbalancer.server.port=80'
 
   # TRAEFIK
   traefik:
     # The latest official supported Traefik docker image
     # image: traefik:v2.3
     image: traefik:v2.5.3
-    environment:
-      # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
-      - 'DO_AUTH_TOKEN=$${DO_AUTH_TOKEN}'
-      - 'DEV_MAIL=$${DEV_MAIL}'
-      - 'LOCAL_HOST=$${LOCAL_HOST}'
+    # environment:
+    #   # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
+    #   - 'DO_AUTH_TOKEN=${DO_AUTH_TOKEN}'
+    #   - 'DEV_MAIL=${DEV_MAIL}'
+    #   - 'LOCAL_HOST=${LOCAL_HOST}'
     #   - TRAEFIK_API_INSECURE=true
     #   - TRAEFIK_PROVIDERS_DOCKER=true
     #   - TRAEFIK_LOG_LEVEL=INFO

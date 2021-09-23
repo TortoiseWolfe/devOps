@@ -13,6 +13,12 @@ api:
 ################################################################
 ping: {}
 
+environment:
+  # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
+  - 'DO_AUTH_TOKEN=${DO_AUTH_TOKEN}'
+  - 'DEV_MAIL=${DEV_MAIL}'
+  - 'LOCAL_HOST=${LOCAL_HOST}'
+
 ################################################################
 # Docker configuration backend
 ################################################################
@@ -96,11 +102,11 @@ entryPoints:
   web:
     address: ':80'
     # redirect http to httpS
-    # http:
-    #   redirections:
-    #     entryPoint:
-    #       to: websecure
-    #       scheme: https
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
   websecure:
     address: ':443'
 
@@ -111,12 +117,11 @@ certificatesResolvers:
   myresolver:
     acme:
       email: ${DEV_MAIL}:janeDOE@mail.com
-      # email: janeDOE@mail.com
       # storage: acme.json
       storage: ../letsencrypt/acme.json
-      # httpChallenge:
-      #   entryPoint: web
-      tlsChallenge: true
+      httpChallenge:
+        entryPoint: web
+      # tlsChallenge: true
       # dnsChallenge:
       # tls:
       # tlsCertFile: /etc/ssl/certs/tls.crt
