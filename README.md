@@ -5,6 +5,12 @@
 ```bash
 export DEV_MAIL=janeDOE@mail.com
 export LOCAL_HOST=localhost
+export MongoDB_PASSWORD=butterzCUPz
+export MongoDB_USERNAME=janeDOE
+export WORDPRESS_DB_HOST=db
+export WORDPRESS_DB_NAME=exampledb
+export WORDPRESS_DB_PASSWORD=examplepass
+export WORDPRESS_DB_USER=exampleuser
 docker-compose up -d --build
 docker-compose down
 ```

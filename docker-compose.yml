@@ -1,82 +1,104 @@
 # version: '2.4'
-# version: '3'
+# version: '3.1'
 version: '3.4'
 
 services:
-  # # MongoDB
-  # mongo:
-  #   image: mongo
-  #   ports:
-  #     - '27017:27017'
-  #   volumes:
-  #     - './data/db:/data/db'
+  # # MONGO EXPRESS
+  # mongo-express:
+  #   image: mongo-express
   #   restart: always
-  #   healthcheck:
-  #     test: echo 'db.runCommand("ping").ok' | mongo ${LOCAL_HOST:-localhost}:27017/test --quiet
-  #     interval: 10s
-  #     timeout: 10s
-  #     retries: 3
-  #     # start_period: 20s
+  #   # ports:
+  #   #   - 8081:8081
   #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${MongoDB_USERNAME}:janeDoe
-  #     MONGO_INITDB_ROOT_PASSWORD: ${MongoDB_PASSWORD}:butterCUPz
-  #   # local MongoDB for development
-  #   # move to Atlas for Cloud Distribution in production
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ${MongoDB_USERNAME}
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: S{MongoDB_PASSWORD}
+  #     ME_CONFIG_MONGODB_URL: mongodb://${MongoDB_USERNAME}:S{MongoDB_PASSWORD}@mongo:27017/
   #   labels:
-  #     # - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.${LOCAL_HOST:-localhost}`)'
-  #     # We set a label to tell Traefik to assign a hostname to the new service
   #     - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mongo.rule=Host(`mongo.docker.${LOCAL_HOST:-localhost}`)'
-  #     # - 'traefik.http.routers.mongo.service=mongo'
-  #     # - 'traefik.http.services.mongo.loadbalancer.server.port=27017'
-  #     # - 'traefik.http.routers.mongo.entrypoints=web'
-  #     # - 'traefik.http.routers.mongo.entrypoints=websecure'
-  #     # - 'traefik.http.routers.mongo.tls.certresolver=myresolver'
+  #     # Routers
+  #     - 'traefik.http.routers.catapp.rule=Host(`mongo-express.${LOCAL_HOST:-localhost}`)'
+  #     # - "traefik.http.routers.mongo-express.rule=Host(`<your-domain-here>`)"
+  #     # - 'traefik.http.routers.mongo-express.service=mongo-express'
+  #     - 'traefik.http.routers.mongo-express.entrypoints=web'
 
-  # # Express
-  # mernlama:
-  #   image: mernlama:prod
-  #   # image: mernlama:dev
-  #   build:
-  #     target: prod
-  #     context: expressAPI
-  #     dockerfile: ./Dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #     # NODE_ENV: development
-  #     # MONGO_ADMINUSERNAME: ${MongoDB_USERNAME}:janeDoe
-  #     # MONGO_ADMINPASSWORD: ${MongoDB_PASSWORD}:butterCUPz
-  #     MONGO_URL: mongodb://janeDoe:butterCUPz@mongo:27017/
-  #     MONGO_URL: mongodb://${MongoDB_USERNAME}:${MongoDB_PASSWORD}@mongo:27017/
-  #     MONGO_DBNAME: mernlama
-  #   ports:
-  #     - 8800:8800
-  #   depends_on:
-  #     mongo:
-  #       condition: service_healthy
-  #   volumes:
-  #     - ./expressAPI:/usr/src/app
-  #     # - /usr/src/app/node_modules
-  #   healthcheck:
-  #     test: ['CMD', 'npm run test']
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 5s
-  #   # logging:
-  #   #   driver: "json-file"
-  #   #   options:
-  #   #     max-size: "10m"
-  #   #     max-file: "3"
-  #   restart: always
-  #   labels:
-  #     # - 'traefik.enable=true'
-  #     - 'traefik.http.routers.mernlama.rule=Host(`mernlama.docker.${LOCAL_HOST:-localhost}`)'
-  #     # - 'traefik.http.routers.mernlama.service=mernlama'
-  #     # - 'traefik.http.services.mernlama.loadbalancer.server.port=8800'
-  #     # - 'traefik.http.routers.mernlama.entrypoints=web'
-  #     # - 'traefik.http.routers.mernlama.entrypoints=websecure'
-  #     # - 'traefik.http.routers.mernlama.tls.certresolver=myresolver'
+  #     # - 'traefik.http.routers.mongo-express.middlewares=mongo-e-t-redirectscheme'
+  #     - 'traefik.http.routers.mongo-express-secure.rule=Host(`mongo-express.${LOCAL_HOST:-localhost}`)'
+  #     - 'traefik.http.routers.mongo-express-secure.entrypoints=websecure'
+  #     - 'traefik.http.routers.mongo-express-secure.tls.certresolver=myresolver'
+  #     - 'traefik.http.routers.mongo-express-secure.middlewares=mongo-e-t-auth,mongo-e-t-errorpages,mongo-e-t-ratelimit'
+  #     # Services
+  #     - 'traefik.http.services.mongo-express-secure.loadbalancer.server.port=8081'
+
+  #     # Middleware BasicAuth
+  #     - 'traefik.http.middlewares.mongo-e-t-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+  #     # user1: traefik password: training
+  #     # user2: user2 password: test123
+  #     # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
+
+  #     # Compress Middleware
+  #     # - 'traefik.http.middlewares.mongo-e-t-compress.compress=true'
+  #     # Error Pages Middleware
+  #     - 'traefik.http.middlewares.mongo-e-t-errorpages.errors.status=400-599'
+  #     - 'traefik.http.middlewares.mongo-e-t-errorpages.errors.service=error'
+  #     - 'traefik.http.middlewares.mongo-e-t-errorpages.errors.query=/{status}.html'
+  #     # Rate Limit Middleware
+  #     - 'traefik.http.middlewares.mongo-e-t-ratelimit.ratelimit.average=2'
+  #     # Redirect Scheme HTTP -> HTTPS
+  #     # - 'traefik.http.middlewares.mongo-e-t-redirectscheme.redirectscheme.scheme=https'
+  #     # - 'traefik.http.middlewares.mongo-e-t-redirectscheme.redirectscheme.permanent=true'
+
+  # MongoDB
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MongoDB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: S{MongoDB_PASSWORD}
+    #     ports:
+    #       - '27017:27017'
+    volumes:
+      - './data/db:/data/db'
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo ${LOCAL_HOST:-localhost}:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 3
+  #       # start_period: 20s
+  #     # move to Atlas for Cloud Distribution in production
+
+  # Express
+  mernlama:
+    image: mernlama:prod
+    # image: mernlama:dev
+    build:
+      target: prod
+      context: expressAPI
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      MONGO_URL: mongodb://${MongoDB_USERNAME}:S{MongoDB_PASSWORD}@mongo:27017/
+      # MONGO_DBNAME: mernlama
+    # blocked in production by firewall
+    ports:
+      - 8800:8800
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./expressAPI:/usr/src/app
+      # - /usr/src/app/node_modules
+    healthcheck:
+      test: ['CMD', 'npm run test']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    # logging:
+    #   driver: "json-file"
+    #   options:
+    #     max-size: "10m"
+    #     max-file: "3"
+    restart: always
 
   # React-Nginx
   react:
@@ -116,41 +138,24 @@ services:
       - 'traefik.http.routers.react.entrypoints=websecure'
       - 'traefik.http.routers.react.tls.certresolver=myresolver'
       # - 'traefik.http.routers.react.service=react'
+      - 'traefik.http.routers.react-secure.middlewares=t-react-errorpages,t-react-ratelimit'
 
       # Services
       - 'traefik.http.services.react.loadbalancer.server.port=3000'
+      # - 'traefik.http.services.react.loadbalancer.server.port=80'
+
       # Middleware BasicAuth
+
       # Compress Middleware
+      #   - 'traefik.http.middlewares.t-react-compress.compress=true'
+
       # Error Pages Middleware
+      - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
       # Rate Limit Middleware
+      - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
       # Redirect Scheme HTTP -> HTTPS
-
-    # labels:
-    #   - 'traefik.enable=true'
-    #   # Routers
-    #   - 'traefik.http.routers.react.rule=Host(`${LOCAL_HOST:-localhost}`)'
-    #   # - "traefik.http.routers.react.rule=Host(`<your-domain-here>`)"
-    #   # - 'traefik.http.routers.react.service=react'
-    #   - 'traefik.http.routers.react.entrypoints=web'
-    #   - 'traefik.http.routers.react.middlewares=t-react-redirectscheme'
-
-    #   - 'traefik.http.routers.react-secure.rule=Host(`${LOCAL_HOST:-localhost}`)'
-    #   - 'traefik.http.routers.react-secure.entrypoints=websecure'
-    #   - 'traefik.http.routers.react-secure.tls.certresolver=myresolver'
-    #   - 'traefik.http.routers.react-secure.middlewares=t-react-compress,t-react-errorpages,t-react-ratelimit'
-    #   # Services
-    #   # - 'traefik.http.services.react-secure.loadbalancer.server.port=80'
-    #   - 'traefik.http.services.react-secure.loadbalancer.server.port=3000'
-    #   # Middleware BasicAuth
-    #   # Compress Middleware
-    #   - 'traefik.http.middlewares.t-react-compress.compress=true'
-    #   # Error Pages Middleware
-    #   - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
-    #   - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
-    #   - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
-    #   # Rate Limit Middleware
-    #   - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
-    #   # Redirect Scheme HTTP -> HTTPS
     #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.scheme=https'
     #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.permanent=true'
 
@@ -186,21 +191,6 @@ services:
     # The latest official supported Traefik docker image
     # image: traefik:v2.3
     image: traefik:v2.5.3
-    # environment:
-    #   # - 'DO_AUTH_TOKEN=<Your Super Secret Digital Ocean Token Goes here>'
-    #   - 'DO_AUTH_TOKEN=${DO_AUTH_TOKEN}'
-    #   - 'DEV_MAIL=${DEV_MAIL}'
-    #   - 'LOCAL_HOST=${LOCAL_HOST}'
-    #   - TRAEFIK_API_INSECURE=true
-    #   - TRAEFIK_PROVIDERS_DOCKER=true
-    #   - TRAEFIK_LOG_LEVEL=INFO
-    # command:
-    #   #   # Enables the Traefik Dashboard and tells Traefik to listen to docker
-    #   - --api.insecure=true
-    #   #   # --providers tell Traefik to connect to the Docker provider
-    #   - --providers.docker
-    #   #   # enable --log.level=INFO so we can see what Traefik is doing in the log files
-    #   - --log.level=INFO
     ports:
       # Exposes port 80 for incomming web requests
       - '80:80'
@@ -213,9 +203,8 @@ services:
         # Copies the Let's Encrypt certificate locally for ease of backing up
       - ./../letsencrypt:/letsencrypt
       # Mounts the Traefik static configuration inside the Traefik container
-      - ./traefik.yml:/etc/traefik/traefik.yml
       # So that Traefik can read the configuration file
-      # - ./traefik.toml:/traefik.toml
+      - ./traefik.yml:/etc/traefik/traefik.yml
     healthcheck:
       test: ['CMD', 'traefik', 'healthcheck']
       interval: 10s
@@ -256,14 +245,16 @@ services:
       - 'traefik.http.routers.catapp-secure.rule=Host(`catapp.${LOCAL_HOST:-localhost}`)'
       - 'traefik.http.routers.catapp-secure.entrypoints=websecure'
       - 'traefik.http.routers.catapp-secure.tls.certresolver=myresolver'
-      - 'traefik.http.routers.catapp-secure.middlewares=test-auth,test-compress,test-errorpages,test-ratelimit'
+      - 'traefik.http.routers.catapp-secure.middlewares=test-compress,test-errorpages,test-ratelimit'
       # Services
       - 'traefik.http.services.catapp-secure.loadbalancer.server.port=5000'
+
       # Middleware BasicAuth
-      - 'traefik.http.middlewares.test-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
+      # - 'traefik.http.middlewares.test-auth.basicauth.users=traefik:$$apr1$$.zPbdVg8$$LcHeyCZElH.JfxkxxlMPI.,user2:$$apr1$$XDrP1Fb1$$SZqSEjvNYW44vgJgI3iEP0'
       # user1: traefik password: training
       # user2: user2 password: test123
       # Create hash password -> echo $(htpasswd -nb user2 test123) | sed -e s/\\$/\\$\\$/g
+
       # Compress Middleware
       - 'traefik.http.middlewares.test-compress.compress=true'
       # Error Pages Middleware
@@ -294,10 +285,10 @@ services:
     # ports:
     #   - 8080:80
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: exampleuser
-      WORDPRESS_DB_PASSWORD: examplepass
-      WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST:-db}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-exampleuser}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-examplepass}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-exampledb}
     volumes:
       - wordpress:/var/www/html
     labels:
@@ -314,9 +305,9 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME:-exampledb}
+      MYSQL_USER: ${WORDPRESS_DB_USER:-exampleuser}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD:-examplepass}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
