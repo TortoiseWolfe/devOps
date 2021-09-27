@@ -5,7 +5,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <a
+          className="App-link"
+          href="https://TurtleWolfe.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Dev Ops Tech Blog"
+        >
+          {/* fccTempLate */}
+          <span className="App-hammer">
+            <img src={logo} className="App-logo" alt="logo" />
+          </span>
+        </a>
         <a
           className="App-link"
           href="https://CatApp.geoLARP.com"

@@ -1,6 +1,7 @@
 # version: '2.4'
 # version: '3.1'
-version: '3.4'
+# version: '3.4'
+version: '3.7'
 
 services:
   # # MONGO EXPRESS
@@ -54,10 +55,11 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MongoDB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: S{MongoDB_PASSWORD}
-    #     ports:
-    #       - '27017:27017'
+    ports:
+      - '27017:27017'
     volumes:
       - './data/db:/data/db'
+      # - mongo:/var/lib/mysql
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo ${LOCAL_HOST:-localhost}:27017/test --quiet
       interval: 10s
@@ -101,9 +103,9 @@ services:
     restart: always
 
   # React-Nginx
-  react:
-    # image: turtlewolfe/geolarp:prod
-    image: turtlewolfe/geolarp:dev
+  rdevops:
+    # image: turtlewolfe/devops:prod
+    image: turtlewolfe/devops:dev
     build:
       # target: prod
       target: dev
@@ -133,12 +135,12 @@ services:
       - 'traefik.enable=true'
       # Routers
       # We set a label to tell Traefik to assign a hostname to the new service
-      - 'traefik.http.routers.react.rule=Host(`${LOCAL_HOST:-localhost}`)'
+      - 'traefik.http.routers.react.rule=Host(`devops.${LOCAL_HOST:-localhost}`)'
       - 'traefik.http.routers.react.entrypoints=web'
       - 'traefik.http.routers.react.entrypoints=websecure'
       - 'traefik.http.routers.react.tls.certresolver=myresolver'
       # - 'traefik.http.routers.react.service=react'
-      - 'traefik.http.routers.react-secure.middlewares=t-react-errorpages,t-react-ratelimit'
+      - 'traefik.http.routers.react.middlewares=devops-errorpages,devops-ratelimit'
 
       # Services
       - 'traefik.http.services.react.loadbalancer.server.port=3000'
@@ -147,17 +149,76 @@ services:
       # Middleware BasicAuth
 
       # Compress Middleware
-      #   - 'traefik.http.middlewares.t-react-compress.compress=true'
+      #   - 'traefik.http.middlewares.devops-compress.compress=true'
 
       # Error Pages Middleware
-      - 'traefik.http.middlewares.t-react-errorpages.errors.status=400-599'
-      - 'traefik.http.middlewares.t-react-errorpages.errors.service=error'
-      - 'traefik.http.middlewares.t-react-errorpages.errors.query=/{status}.html'
+      - 'traefik.http.middlewares.devops-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.devops-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.devops-errorpages.errors.query=/{status}.html'
       # Rate Limit Middleware
-      - 'traefik.http.middlewares.t-react-ratelimit.ratelimit.average=2'
+      - 'traefik.http.middlewares.devops-ratelimit.ratelimit.average=2'
       # Redirect Scheme HTTP -> HTTPS
-    #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.scheme=https'
-    #   - 'traefik.http.middlewares.t-react-redirectscheme.redirectscheme.permanent=true'
+    #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.scheme=https'
+    #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.permanent=true'
+
+  # React-Nginx
+  r-frnt:
+    # image: turtlewolfe/geolarp:prod
+    image: turtlewolfe/geolarp:dev
+    build:
+      target: prod
+      # target: dev
+      context: react-social-ui
+      dockerfile: ./Dockerfile
+    # environment:
+    # - CI=true
+    # - NODE_ENV=production
+    # - LOCAL_HOST=${LOCAL_HOST:-localhost}
+    # ports:
+    # - 3000:3000
+    # depends_on:
+    #   mongo:
+    #   mernlama:
+    #     condition: service_healthy
+    restart: always
+    volumes:
+      # - /usr/src/app/node_modules
+      - ./react-social-ui:/usr/src/app
+      - ./react-social-ui/nginx:/etc/nginx/conf.d
+      # - ./nginx:/etc/nginx/conf.d
+      # - ./r-frnt/build:/usr/share/nginx/html
+      # - ./html:/usr/share/nginx/html
+    # healthcheck:
+    #   test: ['CMD', 'CI=true npm run test']
+    labels:
+      - 'traefik.enable=true'
+      # Routers
+      # We set a label to tell Traefik to assign a hostname to the new service
+      - 'traefik.http.routers.geolarp.rule=Host(`${LOCAL_HOST:-localhost}`)'
+      - 'traefik.http.routers.geolarp.entrypoints=web'
+      - 'traefik.http.routers.geolarp.entrypoints=websecure'
+      - 'traefik.http.routers.geolarp.tls.certresolver=myresolver'
+      # - 'traefik.http.routers.geolarp.service=geolarp'
+      - 'traefik.http.routers.geolarp-secure.middlewares=t-geolarp-errorpages,t-geolarp-ratelimit'
+
+      # Services
+      # - 'traefik.http.services.geolarp.loadbalancer.server.port=3000'
+      - 'traefik.http.services.geolarp.loadbalancer.server.port=80'
+
+      # Middleware BasicAuth
+
+      # Compress Middleware
+      #   - 'traefik.http.middlewares.t-geolarp-compress.compress=true'
+
+      # Error Pages Middleware
+      - 'traefik.http.middlewares.t-geolarp-errorpages.errors.status=400-599'
+      - 'traefik.http.middlewares.t-geolarp-errorpages.errors.service=error'
+      - 'traefik.http.middlewares.t-geolarp-errorpages.errors.query=/{status}.html'
+      # Rate Limit Middleware
+      - 'traefik.http.middlewares.t-geolarp-ratelimit.ratelimit.average=2'
+      # Redirect Scheme HTTP -> HTTPS
+    #   - 'traefik.http.middlewares.t-geolarp-redirectscheme.redirectscheme.scheme=https'
+    #   - 'traefik.http.middlewares.t-geolarp-redirectscheme.redirectscheme.permanent=true'
 
   # StoryBook-Nginx
   storybook:
@@ -311,15 +372,16 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.db.rule=Host(`db.${LOCAL_HOST:-localhost}`)'
-      # - 'traefik.http.routers.db.entrypoints=web'
-      - 'traefik.http.routers.db.entrypoints=websecure'
-      - 'traefik.http.routers.db.tls.certresolver=myresolver'
-      - 'traefik.http.routers.db.service=db'
-      - 'traefik.http.services.db.loadbalancer.server.port=3306'
+    # labels:
+    #   # - 'traefik.enable=true'
+    #   # - 'traefik.http.routers.db.rule=Host(`db.${LOCAL_HOST:-localhost}`)'
+    #   # - 'traefik.http.routers.db.entrypoints=web'
+    #   # - 'traefik.http.routers.db.entrypoints=websecure'
+    #   # - 'traefik.http.routers.db.tls.certresolver=myresolver'
+    #   # - 'traefik.http.routers.db.service=db'
+    #   # - 'traefik.http.services.db.loadbalancer.server.port=3306'
 
 volumes:
   wordpress:
   db:
+  # mongo:

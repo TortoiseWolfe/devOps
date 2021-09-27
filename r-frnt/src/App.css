@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.App-hammer {
+  background-color: #282c34;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  max-width: 16em;
+  margin: auto;
+  /* margin-top: 3em; */
+  overflow: hidden;
+  background: rgba(51, 51, 51, 0) url(./images/script-n-hammer.png);
+  /* background-size: 100% auto; */
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  -webkit-filter: drop-shadow(5px 5px 3px #000000);
+  filter: drop-shadow(5px 5px 3px #000000);
+}
+
+.App-hammer img {
+  display: block;
+  width: 100%;
+  /* height: auto; */
+  animation: App-logo-spin infinite 20s linear;
+}
