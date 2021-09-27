@@ -84,8 +84,8 @@ services:
     ports:
       - 8800:8800
     depends_on:
-      - mongo
-        # condition: service_healthy
+      mongo:
+        condition: service_healthy
     volumes:
       - ./expressAPI:/usr/src/app
       # - /usr/src/app/node_modules
@@ -226,8 +226,8 @@ services:
     # networks:
     #   - web
     volumes:
-      - ./r-frnt/build:/usr/share/nginx/html
-      # - ./html:/usr/share/nginx/html
+      - ./react-social-ui/docs:/usr/share/nginx/html
+      - ./react-social-ui/nginx:/etc/nginx/conf.d
     restart: always
     # Here we define our settings for traefik how to proxy our service.
     labels:
