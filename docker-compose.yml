@@ -104,11 +104,11 @@ services:
 
   # React-Nginx
   rdevops:
-    # image: turtlewolfe/devops:prod
-    image: turtlewolfe/devops:dev
+    image: turtlewolfe/devops:prod
+    # image: turtlewolfe/devops:dev
     build:
-      # target: prod
-      target: dev
+      target: prod
+      # target: dev
       context: r-frnt
       dockerfile: ./Dockerfile
     # environment:
@@ -127,7 +127,8 @@ services:
       - ./r-frnt:/usr/src/app
       - ./r-frnt/nginx:/etc/nginx/conf.d
       # - ./nginx:/etc/nginx/conf.d
-      # - ./r-frnt/build:/usr/share/nginx/html
+      # production build
+      - ./r-frnt/build:/usr/share/nginx/html
       # - ./html:/usr/share/nginx/html
     # healthcheck:
     #   test: ['CMD', 'CI=true npm run test']
@@ -143,8 +144,8 @@ services:
       - 'traefik.http.routers.react.middlewares=devops-errorpages,devops-ratelimit'
 
       # Services
-      - 'traefik.http.services.react.loadbalancer.server.port=3000'
-      # - 'traefik.http.services.react.loadbalancer.server.port=80'
+      # - 'traefik.http.services.react.loadbalancer.server.port=3000'
+      - 'traefik.http.services.react.loadbalancer.server.port=80'
 
       # Middleware BasicAuth
 
@@ -222,16 +223,22 @@ services:
 
   # StoryBook-Nginx
   storybook:
-    image: nginx:1.21.3-alpine
+    # image: nginx:1.21.3-alpine
+    image: turtlewolfe/storybook:prod
     # networks:
     #   - web
+    build:
+      target: prod
+      # target: dev
+      context: react-social-ui
+      dockerfile: ./Dockerfile
     volumes:
-      - ./react-social-ui/docs:/usr/share/nginx/html
+      - ./docs:/usr/share/nginx/html
       - ./react-social-ui/nginx:/etc/nginx/conf.d
     restart: always
     # Here we define our settings for traefik how to proxy our service.
     labels:
-      - 'DevMail=${DEV_MAIL:-joey}'
+      # - 'DevMail=${DEV_MAIL:-joey}'
       # This is enableing treafik to proxy this service
       # We set a label to tell Traefik to assign a hostname to the new service
       - 'traefik.enable=true'
@@ -239,7 +246,7 @@ services:
       - 'traefik.http.routers.storybook.rule=Host(`storybook.${LOCAL_HOST:-localhost}`)'
       # Here we are defining wich entrypoint should be used by clients to access this service
       - 'traefik.http.routers.storybook.entrypoints=web'
-      # - 'traefik.http.routers.storybook.entrypoints=websecure'
+      - 'traefik.http.routers.storybook.entrypoints=websecure'
       # Here we define in wich network treafik can find this service
       # - "traefik.docker.network=web"
       - 'traefik.http.routers.storybook.tls.certresolver=myresolver'
