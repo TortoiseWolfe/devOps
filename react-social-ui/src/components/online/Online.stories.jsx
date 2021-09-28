@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Online } from './Online';
+import Online from './Online';
 
 export default {
   title: 'Lama Dev/Online',
@@ -15,4 +15,6 @@ LoggedIn.args = {
 };
 
 export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+LoggedOut.args = {
+  user: {},
+};

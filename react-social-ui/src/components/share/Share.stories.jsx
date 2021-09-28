@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Share } from './Share';
+import Share from './Share';
 
 export default {
   title: 'Lama Dev/Share',

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Post } from './Post';
+// import { Post } from './Post';
+import Post from './Post';
 
 export default {
   title: 'Lama Dev/Post',

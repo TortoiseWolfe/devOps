@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Rightbar } from './Rightbar';
+import Rightbar from './Rightbar';
 
 export default {
   title: 'Lama Dev/Rightbar',

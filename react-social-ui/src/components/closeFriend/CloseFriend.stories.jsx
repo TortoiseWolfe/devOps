@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CloseFriend } from './CloseFriend';
+import CloseFriend from './CloseFriend';
 
 export default {
   title: 'Lama Dev/CloseFriend',
@@ -15,4 +15,6 @@ LoggedIn.args = {
 };
 
 export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+LoggedOut.args = {
+  user: {},
+};
