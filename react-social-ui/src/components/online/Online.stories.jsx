@@ -3,7 +3,7 @@ import React from 'react';
 import { Online } from './Online';
 
 export default {
-  title: 'Example/Online',
+  title: 'Lama Dev/Online',
   component: Online,
 };
 

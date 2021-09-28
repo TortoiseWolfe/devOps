@@ -3,7 +3,7 @@ import React from 'react';
 import { Topbar } from './Topbar';
 
 export default {
-  title: 'Example/Topbar',
+  title: 'Lama Dev/Topbar',
   component: Topbar,
 };
 

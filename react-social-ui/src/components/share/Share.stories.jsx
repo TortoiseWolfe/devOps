@@ -3,7 +3,7 @@ import React from 'react';
 import { Share } from './Share';
 
 export default {
-  title: 'Example/Share',
+  title: 'Lama Dev/Share',
   component: Share,
 };
 

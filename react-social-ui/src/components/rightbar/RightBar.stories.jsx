@@ -3,7 +3,7 @@ import React from 'react';
 import { Rightbar } from './Rightbar';
 
 export default {
-  title: 'Example/Rightbar',
+  title: 'Lama Dev/Rightbar',
   component: Rightbar,
 };
 
