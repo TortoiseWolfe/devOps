@@ -164,8 +164,8 @@ services:
 
   # React-Nginx
   r-frnt:
-    # image: turtlewolfe/geolarp:prod
-    image: turtlewolfe/geolarp:dev
+    image: turtlewolfe/geolarp:prod
+    # image: turtlewolfe/geolarp:dev
     build:
       target: prod
       # target: dev
@@ -225,6 +225,7 @@ services:
   storybook:
     # image: nginx:1.21.3-alpine
     image: turtlewolfe/storybook:prod
+    # image: turtlewolfe/storybook:dev
     # networks:
     #   - web
     build:
@@ -233,6 +234,9 @@ services:
       context: react-social-ui
       dockerfile: ./Dockerfile
     volumes:
+      # dev:
+      # - ./react-social-ui:/usr/src/app
+      # prod:
       - ./docs:/usr/share/nginx/html
       - ./react-social-ui/nginx:/etc/nginx/conf.d
     restart: always
@@ -253,6 +257,7 @@ services:
       # - 'traefik.http.routers.storybook.service=storybook'
       # This is the port that traefik should proxy
       - 'traefik.http.services.storybook.loadbalancer.server.port=80'
+      # - 'traefik.http.services.storybook.loadbalancer.server.port=6006'
 
   # TRAEFIK
   traefik:
