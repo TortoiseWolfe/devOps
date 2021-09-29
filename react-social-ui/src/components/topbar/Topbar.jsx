@@ -4,9 +4,12 @@ import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 export default function Topbar() {
   return (
     <div className="topbarContainer">
+      {/* TopBarLeft */}
       <div className="topbarLeft">
         <span className="logo">geoLARP</span>
       </div>
+
+      {/* TopBarCenter */}
       <div className="topbarCenter">
         <div className="searchbar">
           <Search className="searchIcon" />
@@ -16,6 +19,8 @@ export default function Topbar() {
           />
         </div>
       </div>
+
+      {/* TopBarRight */}
       <div className="topbarRight">
         <div className="topbarLinks">
           <span className="topbarLink">Homepage</span>

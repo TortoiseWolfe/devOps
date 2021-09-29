@@ -20,18 +20,18 @@ export default function Profile() {
               />
               <img
                 className="profileUserImg"
-                src="assets/person/7.jpeg"
-                alt=""
+                src="assets/person/Turtlewolfe.png"
+                alt="profile"
               />
             </div>
             <div className="profileInfo">
-                <h4 className="profileInfoName">Safak Kocaoglu</h4>
-                <span className="profileInfoDesc">Hello my friends!</span>
+              <h4 className="profileInfoName">TurtleWolfe</h4>
+              <span className="profileInfoDesc">Dwarven Rogue</span>
             </div>
           </div>
           <div className="profileRightBottom">
             <Feed />
-            <Rightbar profile/>
+            <Rightbar profile />
           </div>
         </div>
       </div>

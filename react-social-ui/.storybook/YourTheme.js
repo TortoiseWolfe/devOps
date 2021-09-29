@@ -37,5 +37,5 @@ export default create({
 
   brandTitle: 'geoLARP',
   brandUrl: 'https://geoLARP.com',
-  brandImage: 'https://place-hold.it/350x150',
+  // brandImage: 'https://place-hold.it/350x150',
 });
