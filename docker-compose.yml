@@ -102,65 +102,65 @@ services:
     #     max-file: "3"
     restart: always
 
-  # React-Nginx
-  rdevops:
-    image: turtlewolfe/devops:prod
-    # image: turtlewolfe/devops:dev
-    build:
-      target: prod
-      # target: dev
-      context: r-frnt
-      dockerfile: ./Dockerfile
-    # environment:
-    # - CI=true
-    # - NODE_ENV=production
-    # - LOCAL_HOST=${LOCAL_HOST:-localhost}
-    # ports:
-    # - 3000:3000
-    # depends_on:
-    #   mongo:
-    #   mernlama:
-    #     condition: service_healthy
-    restart: always
-    volumes:
-      # - /usr/src/app/node_modules
-      - ./r-frnt:/usr/src/app
-      - ./r-frnt/nginx:/etc/nginx/conf.d
-      # - ./nginx:/etc/nginx/conf.d
-      # production build
-      - ./r-frnt/build:/usr/share/nginx/html
-      # - ./html:/usr/share/nginx/html
-    # healthcheck:
-    #   test: ['CMD', 'CI=true npm run test']
-    labels:
-      - 'traefik.enable=true'
-      # Routers
-      # We set a label to tell Traefik to assign a hostname to the new service
-      - 'traefik.http.routers.react.rule=Host(`devops.${LOCAL_HOST:-localhost}`)'
-      - 'traefik.http.routers.react.entrypoints=web'
-      - 'traefik.http.routers.react.entrypoints=websecure'
-      - 'traefik.http.routers.react.tls.certresolver=myresolver'
-      # - 'traefik.http.routers.react.service=react'
-      - 'traefik.http.routers.react.middlewares=devops-errorpages,devops-ratelimit'
+  # # React-Nginx
+  # rdevops:
+  #   image: turtlewolfe/devops:prod
+  #   # image: turtlewolfe/devops:dev
+  #   build:
+  #     target: prod
+  #     # target: dev
+  #     context: r-frnt
+  #     dockerfile: ./Dockerfile
+  #   # environment:
+  #   # - CI=true
+  #   # - NODE_ENV=production
+  #   # - LOCAL_HOST=${LOCAL_HOST:-localhost}
+  #   # ports:
+  #   # - 3000:3000
+  #   # depends_on:
+  #   #   mongo:
+  #   #   mernlama:
+  #   #     condition: service_healthy
+  #   restart: always
+  #   volumes:
+  #     # - /usr/src/app/node_modules
+  #     - ./r-frnt:/usr/src/app
+  #     - ./r-frnt/nginx:/etc/nginx/conf.d
+  #     # - ./nginx:/etc/nginx/conf.d
+  #     # production build
+  #     - ./r-frnt/build:/usr/share/nginx/html
+  #     # - ./html:/usr/share/nginx/html
+  #   # healthcheck:
+  #   #   test: ['CMD', 'CI=true npm run test']
+  #   labels:
+  #     - 'traefik.enable=true'
+  #     # Routers
+  #     # We set a label to tell Traefik to assign a hostname to the new service
+  #     - 'traefik.http.routers.react.rule=Host(`devops.${LOCAL_HOST:-localhost}`)'
+  #     - 'traefik.http.routers.react.entrypoints=web'
+  #     - 'traefik.http.routers.react.entrypoints=websecure'
+  #     - 'traefik.http.routers.react.tls.certresolver=myresolver'
+  #     # - 'traefik.http.routers.react.service=react'
+  #     - 'traefik.http.routers.react.middlewares=devops-errorpages,devops-ratelimit'
 
-      # Services
-      # - 'traefik.http.services.react.loadbalancer.server.port=3000'
-      - 'traefik.http.services.react.loadbalancer.server.port=80'
+  #     # Services
+  #     # - 'traefik.http.services.react.loadbalancer.server.port=3000'
+  #     - 'traefik.http.services.react.loadbalancer.server.port=80'
 
-      # Middleware BasicAuth
+  #     # Middleware BasicAuth
 
-      # Compress Middleware
-      #   - 'traefik.http.middlewares.devops-compress.compress=true'
+  #     # Compress Middleware
+  #     #   - 'traefik.http.middlewares.devops-compress.compress=true'
 
-      # Error Pages Middleware
-      - 'traefik.http.middlewares.devops-errorpages.errors.status=400-599'
-      - 'traefik.http.middlewares.devops-errorpages.errors.service=error'
-      - 'traefik.http.middlewares.devops-errorpages.errors.query=/{status}.html'
-      # Rate Limit Middleware
-      - 'traefik.http.middlewares.devops-ratelimit.ratelimit.average=2'
-      # Redirect Scheme HTTP -> HTTPS
-    #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.scheme=https'
-    #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.permanent=true'
+  #     # Error Pages Middleware
+  #     - 'traefik.http.middlewares.devops-errorpages.errors.status=400-599'
+  #     - 'traefik.http.middlewares.devops-errorpages.errors.service=error'
+  #     - 'traefik.http.middlewares.devops-errorpages.errors.query=/{status}.html'
+  #     # Rate Limit Middleware
+  #     - 'traefik.http.middlewares.devops-ratelimit.ratelimit.average=2'
+  #     # Redirect Scheme HTTP -> HTTPS
+  #   #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.scheme=https'
+  #   #   - 'traefik.http.middlewares.devops-redirectscheme.redirectscheme.permanent=true'
 
   # React-Nginx
   r-frnt:
@@ -184,6 +184,8 @@ services:
     restart: always
     volumes:
       # - /usr/src/app/node_modules
+      # - ./react-social-ui/build:/usr/share/nginx/html
+      # production build
       - ./react-social-ui:/usr/src/app
       - ./react-social-ui/nginx:/etc/nginx/conf.d
       # - ./nginx:/etc/nginx/conf.d
