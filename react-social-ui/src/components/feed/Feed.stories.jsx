@@ -3,7 +3,7 @@ import React from 'react';
 import Feed from './Feed';
 
 export default {
-  title: 'Lama Dev/Feed',
+  title: 'Lama Dev Components/Feed',
   component: Feed,
 };
 

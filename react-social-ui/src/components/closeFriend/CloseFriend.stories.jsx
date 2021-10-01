@@ -3,7 +3,7 @@ import React from 'react';
 import CloseFriend from './CloseFriend';
 
 export default {
-  title: 'Lama Dev/CloseFriend',
+  title: 'Lama Dev Components/CloseFriend',
   component: CloseFriend,
 };
 

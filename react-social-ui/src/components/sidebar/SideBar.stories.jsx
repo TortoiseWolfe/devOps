@@ -3,7 +3,7 @@ import React from 'react';
 import Sidebar from './Sidebar';
 
 export default {
-  title: 'Lama Dev/Sidebar',
+  title: 'Lama Dev Components/Sidebar',
   component: Sidebar,
 };
 

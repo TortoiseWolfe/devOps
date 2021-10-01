@@ -3,7 +3,7 @@ import React from 'react';
 import Online from './Online';
 
 export default {
-  title: 'Lama Dev/Online',
+  title: 'Lama Dev Components/Online',
   component: Online,
 };
 

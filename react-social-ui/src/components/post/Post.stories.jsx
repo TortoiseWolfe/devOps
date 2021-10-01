@@ -4,7 +4,7 @@ import React from 'react';
 import Post from './Post';
 
 export default {
-  title: 'Lama Dev/Post',
+  title: 'Lama Dev Components/Post',
   component: Post,
 };
 

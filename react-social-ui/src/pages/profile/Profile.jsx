@@ -26,7 +26,7 @@ export default function Profile() {
             </div>
             <div className="profileInfo">
               <h4 className="profileInfoName">TurtleWolfe</h4>
-              <span className="profileInfoDesc">Dwarven Rogue</span>
+              <span className="profileInfoDesc">Rogue Dwarf</span>
             </div>
           </div>
           <div className="profileRightBottom">

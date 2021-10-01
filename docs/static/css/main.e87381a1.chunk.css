@@ -20,6 +20,8 @@
 
 .postWrapper {
   padding: 10px;
+  background-color: #fdd978;
+  border-radius: 10px;
 }
 
 .postTop {
@@ -46,53 +48,55 @@
   margin: 0 10px;
 }
 
-.postDate{
-    font-size: 12px;
+.postDate {
+  font-size: 12px;
 }
 
-.postCenter{
-    margin: 20px 0;
+.postCenter {
+  margin: 20px 0;
 }
 
-.postImg{
-    margin-top: 20px;
-    width: 100%;
-    max-height: 500px;
-    object-fit: contain;
+.postImg {
+  margin-top: 20px;
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
 }
 
-.postBottom{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.postBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.postBottomLeft{
-    display: flex;
-    align-items: center;   
+.postBottomLeft {
+  display: flex;
+  align-items: center;
 }
 
-.likeIcon{
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
-    cursor: pointer;
+.likeIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  cursor: pointer;
 }
 
-.postLikeCounter{
-    font-size: 15px;
+.postLikeCounter {
+  font-size: 15px;
 }
 
-.postCommentText{
-    cursor: pointer;
-    border-bottom: 1px dashed gray;
-    font-size: 15px;
+.postCommentText {
+  cursor: pointer;
+  border-bottom: 1px dashed gray;
+  font-size: 15px;
 }
+
 .share {
   width: 100%;
   height: 170px;
   border-radius: 10px;
   box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+  background-color: #fdd978;
 }
 
 .shareWrapper {
@@ -102,6 +106,7 @@
 .shareTop {
   display: flex;
   align-items: center;
+  /* background-color: #fdd978; */
 }
 
 .shareProfileImg {
@@ -115,6 +120,7 @@
 .shareInput {
   border: none;
   width: 80%;
+  background-color: #fdd978;
 }
 
 .shareInput:focus {
@@ -131,38 +137,43 @@
   justify-content: space-between;
 }
 
-.shareOptions{
-    display: flex;
-    margin-left: 20px;
+.shareOptions {
+  display: flex;
+  margin-left: 20px;
 }
 
-.shareOption{
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    cursor: pointer;
+.shareOption {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
 }
 
-.shareIcon{
-    font-size: 18px;
-    margin-right: 3px;
+.shareIcon {
+  font-size: 18px;
+  margin-right: 3px;
 }
 
-.shareOptionText{
-    font-size: 14px;
-    font-weight: 500;
+.shareOptionText {
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.shareButton{
-    border: none;
-    padding: 7px;
-    border-radius: 5px;
-    background-color: green;
-    font-weight: 500;
-    margin-right: 20px;
-    cursor: pointer;
-    color: white;
+.shareButton {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  /* background-color: green; */
+  /* background-color: #605542; */
+  background-color: #6e2f3b;
+  /* background-color: #80acaa; */
+  font-weight: 500;
+  margin-right: 20px;
+  cursor: pointer;
+  /* color: white; */
+  color: #fdd978;
 }
+
 .feed{
     flex:5.5 1
 }
@@ -297,9 +308,11 @@
   width: 5px;
 }
 ::-webkit-scrollbar-track {
+  /* background-color: #f1f1f1; */
   background-color: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
+  /* background-color: rgb(179, 179, 179); */
   background-color: rgb(179, 179, 179);
 }
 
@@ -329,6 +342,10 @@
   padding: 10px;
   border-radius: 5px;
   font-weight: 500;
+  color: #fdd978;
+  /* background-color: #fdd978; */
+  /* background-color: #605542; */
+  background-color: #6e2f3b;
 }
 
 .sidebarHr {
@@ -340,8 +357,6 @@
   margin: 0;
   list-style: none;
 }
-
-
 
 .topbarContainer {
   height: 50px;
@@ -394,7 +409,6 @@
   width: 70%;
   background-color: #fdd978;
 }
-
 .searchInput:focus {
   outline: none;
 }
@@ -439,7 +453,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  /* font-size: 12px; */
+  font-size: 11px;
 }
 
 .topbarImg {
@@ -450,6 +465,235 @@
   cursor: pointer;
 }
 
+.homeContainer {
+  display: flex;
+  width: 100%;
+}
+
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginWrapper {
+  width: 70%;
+  height: 70%;
+  display: flex;
+}
+
+.loginLeft,
+.loginRight {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginLogo {
+  font-size: 50px;
+  font-weight: 800;
+  color: #1775ee;
+  margin-bottom: 10px;
+}
+
+.loginDesc {
+  font-size: 24px;
+}
+
+.loginBox{
+    height: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loginInput{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.loginInput:focus{
+    outline: none;
+}
+
+.loginButton{
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1775ee;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.loginForgot{
+    text-align: center;
+    color: #1775ee;
+}
+
+.loginRegisterButton{
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #42b72a;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.profile {
+  display: flex;
+  background-color: #80acaa;
+  /* background-color: #fdd978; */
+  /* background-color: #605542; */
+  /* background-color: #6e2f3b; */
+  /* background-color: #000000; */
+}
+
+.profileRight {
+  flex: 9 1;
+}
+
+.profileCover {
+  height: 320px;
+  position: relative;
+}
+
+.profileCoverImg {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.profileUserImg {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 150px;
+  border: 3px solid white;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileInfoName {
+  font-size: 24px;
+}
+
+.profileInfoDesc {
+  font-weight: 300;
+}
+
+.profileRightBottom {
+  display: flex;
+}
+
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginWrapper {
+  width: 70%;
+  height: 70%;
+  display: flex;
+}
+
+.loginLeft,
+.loginRight {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginLogo {
+  font-size: 50px;
+  font-weight: 800;
+  color: #1775ee;
+  margin-bottom: 10px;
+}
+
+.loginDesc {
+  font-size: 24px;
+}
+
+.loginBox{
+    height: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loginInput{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.loginInput:focus{
+    outline: none;
+}
+
+.loginButton{
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1775ee;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.loginForgot{
+    text-align: center;
+    color: #1775ee;
+}
+
+.loginRegisterButton{
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #42b72a;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
 .storybook-button {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
@@ -579,4 +823,4 @@ li {
 }
 
 
-/*# sourceMappingURL=main.efbf992b.chunk.css.map*/
+/*# sourceMappingURL=main.e87381a1.chunk.css.map*/
