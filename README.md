@@ -26,6 +26,8 @@ cd devOps
 docker stack deploy -c docker-compose.yml traefik
 ```
 
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=b6508f8816fd&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 ## [Bash](https://www.google.com 'Docker Captain & David Herron')
 
 1. ~~previous bash script~~

@@ -9,7 +9,11 @@ import {
   WorkOutline,
   Event,
   School,
+  MenuBookTwoTone
 } from "@material-ui/icons";
+import PetsIcon from '@material-ui/icons/Pets';
+// import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import { Users } from "../../dummyData";
 import CloseFriend from "../closeFriend/CloseFriend";
 
@@ -26,7 +30,7 @@ export default function Sidebar() {
             <Chat className="sidebarIcon" />
             <span className="sidebarListItemText">Chats</span>
           </li>
-          <li className="sidebarListItem">
+          {/* <li className="sidebarListItem">
             <PlayCircleFilledOutlined className="sidebarIcon" />
             <span className="sidebarListItemText">Videos</span>
           </li>
@@ -53,9 +57,97 @@ export default function Sidebar() {
           <li className="sidebarListItem">
             <School className="sidebarIcon" />
             <span className="sidebarListItemText">Courses</span>
-          </li>
+          </li> */}
         </ul>
         <button className="sidebarButton">Show More</button>
+        <hr className="sidebarHr" />
+        <ul className="sidebarList">
+          {/* list of links */}
+          <li className="sidebarListItem">
+            <MenuBookTwoTone className="sidebarIcon" />
+            <span className="sidebarListItemText">
+              <a
+                className="App-link"
+                href="https://StoryBook.geoLARP.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4><code>Story Book</code></h4>
+              </a>
+              .geoLARP
+            </span>
+          </li>
+          {/* list of links */}
+          <li className="sidebarListItem">
+            <MenuBookTwoTone className="sidebarIcon" />
+            <span className="sidebarListItemText">
+              <a
+                className="App-link"
+                href="https://WordPress.geoLARP.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4><code>Word Press</code></h4>
+              </a>
+              .geoLARP
+            </span>
+          </li>
+          {/* list of links */}
+          <li className="sidebarListItem">
+            <PetsIcon className="sidebarIcon" />
+            <span className="sidebarListItemText">
+              <a
+                className="App-link"
+                href="https://CatApp.geoLARP.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4><code>Cat App</code></h4>
+              </a>
+              .geoLARP
+            </span>
+          </li>
+          {/* list of links */}
+          <li className="sidebarListItem">
+            <HelpOutline className="sidebarIcon" />
+            <span className="sidebarListItemText">
+              <a
+                className="App-link"
+                href="https://WhoAmI.geoLARP.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4><code>Who Am I</code></h4>
+              </a>
+              .geoLARP
+            </span>
+          </li>
+          {/* list of links */}
+          <li className="sidebarListItem">
+            {/* <AttachMoneyIcon className="sidebarIcon" /> */}
+            <span className="sidebarListItemText">
+
+              <a href="https://www.digitalocean.com/?refcode=b6508f8816fd&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+                <img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" />
+              </a>
+            </span>
+          </li>
+          {/* list of links */}
+          <li className="sidebarListItem">
+            <GitHubIcon className="sidebarIcon" />
+            <span className="sidebarListItemText">
+              <a
+                className="App-link"
+                href="https://github.com/TurtleWolfe/devOps"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4><code>gitHub</code></h4>
+              </a>
+              .com
+            </span>
+          </li>
+        </ul>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
           {Users.map((u) => (

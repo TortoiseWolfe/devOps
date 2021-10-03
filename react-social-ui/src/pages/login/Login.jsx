@@ -7,7 +7,10 @@ export default function Login() {
         <div className="loginLeft">
           <h3 className="loginLogo">geoLARP</h3>
           <span className="loginDesc">
-            GeoLocated Live Action Role Playing
+            GeoLocated
+          </span>
+          <span className="loginDesc">
+            Live Action Role Playing
           </span>
         </div>
         <div className="loginRight">

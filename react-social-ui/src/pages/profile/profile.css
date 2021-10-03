@@ -32,7 +32,9 @@
   right: 0;
   margin: auto;
   top: 150px;
-  border: 3px solid white;
+  /* border: 3px solid white; */
+  border: 7px solid #80acaa;
+  border-style: double;
 }
 
 .profileInfo {

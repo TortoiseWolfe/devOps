@@ -10,17 +10,19 @@ export default function Profile() {
       <Topbar />
       <div className="profile">
         <Sidebar />
+        {/* profile */}
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
               <img
                 className="profileCoverImg"
                 src="assets/post/3.jpeg"
-                alt=""
+                alt="profile background cover"
               />
               <img
                 className="profileUserImg"
                 src="assets/person/Turtlewolfe.png"
+                // src="assets/person/10.jpeg"
                 alt="profile"
               />
             </div>
@@ -29,6 +31,7 @@ export default function Profile() {
               <span className="profileInfoDesc">Rogue Dwarf</span>
             </div>
           </div>
+          {/* profile Right Bottom */}
           <div className="profileRightBottom">
             <Feed />
             <Rightbar profile />

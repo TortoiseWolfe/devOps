@@ -9,6 +9,27 @@ export default function Topbar() {
         <span className="logo">geoLARP</span>
       </div>
 
+      <div className="topbarIcons">
+        <div className="topbarIconItem">
+          <img
+            className="likeIcon"
+            src="assets/dollar.png"
+            // onClick={likeHandler} 
+            alt=""
+          />
+          <span className="topbarIconBadge">33</span>
+        </div>
+        <div className="topbarIconItem">
+          <img
+            className="likeIcon"
+            src="assets/heart.png"
+            // onClick={likeHandler}
+            alt=""
+          />
+          <span className="topbarIconBadge">7</span>
+        </div>
+      </div>
+
       {/* TopBarCenter */}
       <div className="topbarCenter">
         <div className="searchbar">
