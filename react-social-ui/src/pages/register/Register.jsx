@@ -53,7 +53,7 @@ export default function Register() {
               ref={username}
             />
             <input
-              placeholder="Email"
+              placeholder="please use a disposable Email"
               type='email'
               required
               className="loginInput"
