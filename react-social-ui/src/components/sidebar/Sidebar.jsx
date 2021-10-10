@@ -2,13 +2,13 @@ import "./sidebar.css";
 import {
   RssFeed,
   Chat,
-  PlayCircleFilledOutlined,
-  Group,
-  Bookmark,
+  // PlayCircleFilledOutlined,
+  // Group,
+  // Bookmark,
   HelpOutline,
-  WorkOutline,
-  Event,
-  School,
+  // WorkOutline,
+  // Event,
+  // School,
   MenuBookTwoTone
 } from "@material-ui/icons";
 import PetsIcon from '@material-ui/icons/Pets';

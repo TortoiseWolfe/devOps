@@ -71,6 +71,16 @@
   cursor: pointer;
 }
 
+.loginButton:focus {
+  outline: none;
+}
+
+.loginButton:disabled {
+  /* background-color: #fdd978; */
+  /* color: #6e2f3b; */
+  cursor: not-allowed;
+}
+
 .loginForgot {
   text-align: center;
   /* color: #1775ee; */
@@ -78,7 +88,7 @@
 }
 
 .loginRegisterButton {
-  width: 60%;
+  width: 70%;
   align-self: center;
   height: 50px;
   border-radius: 10px;

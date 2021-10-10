@@ -31,13 +31,13 @@ const UserSchema = new mongoose.Schema({
   //         profile picture
   profilePicture: {
     type: String,
-    default: 'https://i.picsum.photos/id/629/200/300.jpg?hmac=YTSnJIQbXgJTOWUeXAqVeQYHZDodXXFFJxd5RTKs7yU'
+    default: '/person/noAvatar.png'
   },         // profile picture
 
   //        cover picture
   coverPicture: {
     type: String,
-    default: 'https://i.picsum.photos/id/529/200/300.jpg?hmac=WqdWbOIAJ1H2q4r92Fc4KXM--xvRadidXmV5P2R1rDg'
+    default: 'expressAPI/public/images/person/noAvatar.png'
   },        // cover picture
 
   //    followers

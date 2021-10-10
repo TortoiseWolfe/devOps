@@ -7,6 +7,9 @@ const morgan = require('morgan');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const postsRouter = require('./routes/posts');
+const multer = require('multer');
+const path = require('path');
+const cors = require('cors');
 const port = process.env.PORT || 8800;
 
 dotenv.config();
@@ -20,11 +23,33 @@ mongoose.connect(process.env.MONGO_URL, {
     console.log('Connected to MongoDB');
   });// Connect to MongoDB
 
+app.use(cors());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 // middlware
+
 app.use(express.json());
 app.use(helmet());
 // app.use(morgan('dev'));
 app.use(morgan('common'));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name);
+  },
+});
+
+const upload = multer({ storage: storage });
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  try {
+    return res.status(200).json('file uploaded successfully');
+  } catch (err) {
+    console.log(err);
+  }
+
+});
 
 // routes
 // app.get('/', (req, res) => {
