@@ -164,11 +164,11 @@ services:
 
   # React-Nginx
   r-frnt:
-    image: turtlewolfe/geolarp:prod
-    # image: turtlewolfe/geolarp:dev
+    # image: turtlewolfe/geolarp:prod
+    image: turtlewolfe/geolarp:dev
     build:
-      target: prod
-      # target: dev
+      # target: prod
+      target: dev
       context: react-social-ui
       dockerfile: ./Dockerfile
     # environment:
@@ -205,8 +205,8 @@ services:
       - 'traefik.http.routers.geolarp-secure.middlewares=t-geolarp-errorpages,t-geolarp-ratelimit'
 
       # Services
-      # - 'traefik.http.services.geolarp.loadbalancer.server.port=3000'
-      - 'traefik.http.services.geolarp.loadbalancer.server.port=80'
+      - 'traefik.http.services.geolarp.loadbalancer.server.port=3000'
+      # - 'traefik.http.services.geolarp.loadbalancer.server.port=80'
 
       # Middleware BasicAuth
 
